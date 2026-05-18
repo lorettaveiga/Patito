@@ -1,0 +1,25 @@
+programa integral;
+vars
+  x, resultado : entero;
+  pi : flotante;
+nula cuadrado (entero n)
+vars
+  r : entero;
+{
+  r = n * n;
+  escribe ("Cuadrado:", r);
+};
+inicio
+{
+  x = 5;
+  pi = 3.14;
+  cuadrado(x);
+  si (x != 0) {
+    resultado = x + 2 * 3;
+    escribe ("Resultado:", resultado, "Pi:", pi);
+  };
+  mientras (x > 0) haz {
+    x = x - 1;
+  };
+}
+fin

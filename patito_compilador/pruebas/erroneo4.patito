@@ -1,0 +1,10 @@
+programa errorParentesis;
+vars
+  x : entero;
+inicio
+{
+  si (x > 0 {
+    escribe (x);
+  };
+}
+fin

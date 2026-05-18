@@ -1,0 +1,11 @@
+programa variables;
+vars
+  x, y : entero;
+  promedio : flotante;
+inicio
+{
+  x = 10;
+  y = 20;
+  promedio = 15.5;
+}
+fin

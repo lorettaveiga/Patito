@@ -1,0 +1,6 @@
+programa varNoDeclarada;
+inicio
+{
+  x = 10;
+}
+fin

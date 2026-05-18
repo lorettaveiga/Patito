@@ -1,0 +1,8 @@
+programa errorTipo;
+vars
+  x : decimal;
+inicio
+{
+  x = 3.14;
+}
+fin

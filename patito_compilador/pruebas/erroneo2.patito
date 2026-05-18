@@ -1,0 +1,9 @@
+programa errorSintactico;
+vars
+  x : entero;
+inicio
+{
+  x = 10
+  x = 20;
+}
+fin

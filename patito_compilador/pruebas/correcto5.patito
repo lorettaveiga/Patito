@@ -1,0 +1,16 @@
+programa conFunciones;
+nula saluda (entero veces)
+vars
+  i : entero;
+{
+  i = 0;
+  mientras (i < veces) haz {
+    escribe ("Hola");
+    i = i + 1;
+  };
+};
+inicio
+{
+  saluda(3);
+}
+fin

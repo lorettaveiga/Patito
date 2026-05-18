@@ -1,0 +1,9 @@
+programa dobleDeclaracion;
+vars
+  x : entero;
+  x : flotante;
+inicio
+{
+  x = 1;
+}
+fin

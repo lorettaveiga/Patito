@@ -1,0 +1,13 @@
+programa condicional;
+vars
+  edad : entero;
+inicio
+{
+  edad = 18;
+  si (edad > 17) {
+    escribe ("Mayor de edad");
+  } sino {
+    escribe ("Menor de edad");
+  };
+}
+fin

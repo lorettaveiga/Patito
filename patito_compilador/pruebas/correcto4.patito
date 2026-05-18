@@ -1,0 +1,12 @@
+programa cicloWhile;
+vars
+  contador : entero;
+inicio
+{
+  contador = 1;
+  mientras (contador < 6) haz {
+    escribe (contador);
+    contador = contador + 1;
+  };
+}
+fin

@@ -1,0 +1,6 @@
+programa funcionNoDeclarada;
+inicio
+{
+  fantasma(5);
+}
+fin
