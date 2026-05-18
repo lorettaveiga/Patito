@@ -1,0 +1,11 @@
+programa dobleFunc;
+nula miFuncion (entero x)
+{
+};
+nula miFuncion (entero y)
+{
+};
+inicio
+{
+}
+fin

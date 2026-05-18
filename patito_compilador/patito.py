@@ -68,9 +68,6 @@ def buscarVariable(nombre):
     return None
 
 def imprimirDirectorio():
-    print("\n" + "=" * 50)
-    print("DIRECTORIO DE FUNCIONES")
-    print("=" * 50)
     for nombre, info in directorioFunciones.items():
         print(f"\n  [{nombre}]  tipo: {info['tipo']}")
         if info.get('params'):
