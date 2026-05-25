@@ -1,0 +1,14 @@
+programa expresionRelacional;
+vars
+  a, b : entero;
+  resultado : flotante;
+inicio
+{
+  a = 10;
+  b = 3;
+  resultado = 2.5 + 1.5;
+  si (a > b) {
+    escribe ("a es mayor");
+  };
+}
+fin

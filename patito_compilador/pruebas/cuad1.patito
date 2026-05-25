@@ -1,0 +1,11 @@
+programa expresionSimple;
+vars
+  x, y, z : entero;
+inicio
+{
+  x = 5;
+  y = 3;
+  z = x + y * 2;
+  escribe (z);
+}
+fin

@@ -46,6 +46,11 @@ def tiporesultante(tipo1, op, tipo2):
 directorioFunciones = {}
 ambitoActual        = None
 hayErrores          = False
+pilaOperandos  = []
+pilaTipos      = []
+pilaOperadores = []
+filaCuadruplos = []
+contTemp       = [0]
 
 
 # directorio de funciones y helpers: (entrega #2)
@@ -344,18 +349,19 @@ def p_estatuto(p):
 
 
 # Asignaciones: x = 5;  o  promedio = x + 1;
-def p_asigna(p): #(entrega #2)
+def p_asigna(p): # (entrega #3)
     '''asigna : ID ASIGNACION expresion PUNTOCOMA'''
     global hayErrores
-    tipoVar  = buscarVariable(p[1])
-    tipoExpr = p[3]
+    nombre_expr, tipo_expr = p[3]
+    tipoVar = buscarVariable(p[1])
     if tipoVar is None:
         print(f"error semantico: variable '{p[1]}' no declarada (linea {p.lineno(1)})")
         hayErrores = True
-    elif tipoExpr is not None:
-        if tipoVar != tipoExpr and not (tipoVar == 'flotante' and tipoExpr == 'entero'):
-            print(f"error semantico: no se puede asignar '{tipoExpr}' a '{p[1]}' de tipo '{tipoVar}'")
+    elif tipo_expr is not None:
+        if tipoVar != tipo_expr and not (tipoVar == 'flotante' and tipo_expr == 'entero'):
+            print(f"error semantico: no se puede asignar '{tipo_expr}' a '{p[1]}' de tipo '{tipoVar}'")
             hayErrores = True
+    generarCuadruplo('=', nombre_expr, None, p[1])
     p[0] = ('asigna', p[1])
 
 
@@ -404,153 +410,178 @@ def p_args_p_vacio(p): # ya no hay más argumentos
     pass
 
 # Imprime cosas
-def p_imprime(p):
+def p_imprime(p): # (entrega #3)
     '''imprime : ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA'''
-    p[0] = ('imprime', p[3])
+    generarCuadruplo('print', p[3], None, None)
+    p[0] = ('imprime',)
 
-def p_item_imp_expr(p):
+def p_item_imp_expr(p): # (entrega #3)
     '''item_imp : expresion'''
-    p[0] = p[1]
+    p[0] = p[1][0]
 
-def p_item_imp_letrero(p):
+def p_item_imp_letrero(p): # (entrega #3)
     '''item_imp : LETRERO'''
-    p[0] = ('letrero', p[1])
+    p[0] = f'"{p[1]}"'
 
-def p_items_p_con(p):
+def p_items_p_con(p): # (entrega #3)
     '''items_p : COMA item_imp items_p'''
-    pass
+    generarCuadruplo('print', p[2], None, None)
 
 def p_items_p_vacio(p):
     '''items_p : empty'''
     pass
 
 
-# expresión completa: puede llevar > < == != al final
-def p_expresion(p): #(entrega #2)
-    '''expresion : exp relac_opc'''
+# expresión completa: puede llevar > < == != 
+def p_expresion_mayor(p): # (entrega #3)
+    '''expresion : exp MAYORQUE exp'''
+    temp = nuevoTemp()
+    generarCuadruplo('>', p[1][0], p[3][0], temp)
+    pilaOperandos.append(temp); pilaTipos.append('bool')
+    p[0] = (temp, 'bool')
+
+def p_expresion_menor(p): # (entrega #3)
+    '''expresion : exp MENORQUE exp'''
+    temp = nuevoTemp()
+    generarCuadruplo('<', p[1][0], p[3][0], temp)
+    pilaOperandos.append(temp); pilaTipos.append('bool')
+    p[0] = (temp, 'bool')
+
+def p_expresion_diferente(p): # (entrega #3)        
+    '''expresion : exp DIFERENTE exp'''
+    temp = nuevoTemp()
+    generarCuadruplo('!=', p[1][0], p[3][0], temp)
+    pilaOperandos.append(temp); pilaTipos.append('bool')
+    p[0] = (temp, 'bool')
+
+def p_expresion_igual(p): # (entrega #3)
+    '''expresion : exp IGUALIGUAL exp'''
+    temp = nuevoTemp()
+    generarCuadruplo('==', p[1][0], p[3][0], temp)
+    pilaOperandos.append(temp); pilaTipos.append('bool')
+    p[0] = (temp, 'bool')
+
+def p_expresion_exp(p): # (entrega #3)
+    '''expresion : exp'''
+    p[0] = p[1]
+
+# suma y resta: left-recursive para generar cuádruplos en orden correcto
+def p_exp_suma(p): # (entrega #3)
+    '''exp : exp SUMA termino'''
     global hayErrores
-    if p[2] is None:
-        p[0] = p[1]
-    else:
-        op, tipo2 = p[2]
-        resultado = tiporesultante(p[1], op, tipo2) if (p[1] and tipo2) else None
-        if resultado is None and p[1] and tipo2:
-            print(f"error semantico: operacion '{op}' invalida entre '{p[1]}' y '{tipo2}'")
-            hayErrores = True
-        p[0] = resultado
+    tipo = tiporesultante(p[1][1], '+', p[3][1])
+    if tipo is None and p[1][1] and p[3][1]:
+        print(f"error semantico: '+' invalido entre '{p[1][1]}' y '{p[3][1]}'")
+        hayErrores = True
+        tipo = p[1][1]
+    temp = nuevoTemp()
+    generarCuadruplo('+', p[1][0], p[3][0], temp)
+    pilaOperandos.append(temp); pilaTipos.append(tipo)
+    p[0] = (temp, tipo)
 
-def p_relac_opc_mayor(p):  # ... > algo
-    '''relac_opc : MAYORQUE exp'''
-    p[0] = ('>', p[2])
-
-def p_relac_opc_menor(p): # ... < algo
-    '''relac_opc : MENORQUE exp'''
-    p[0] = ('<', p[2])
-
-def p_relac_opc_diferente(p): # ... != algo
-    '''relac_opc : DIFERENTE exp'''
-    p[0] = ('!=', p[2])
-
-def p_relac_opc_igual(p): # ... == algo
-    '''relac_opc : IGUALIGUAL exp'''
-    p[0] = ('==', p[2])
-
-def p_relac_opc_vacio(p): # sin comparación 
-    '''relac_opc : empty'''
-    p[0] = None
-
-# suma y resta: 1 + 2 - 3
-def p_exp(p): #(entrega #2)
-    '''exp : termino exp_p'''
+def p_exp_resta(p): # (entrega #3)
+    '''exp : exp RESTA termino'''
     global hayErrores
-    if p[2] is None:
-        p[0] = p[1]
-    else:
-        op, tipo2, _ = p[2]
-        resultado = tiporesultante(p[1], op, tipo2) if (p[1] and tipo2) else None
-        if resultado is None and p[1] and tipo2:
-            print(f"error semantico: operacion '{op}' invalida entre '{p[1]}' y '{tipo2}'")
-            hayErrores = True
-        p[0] = resultado
+    tipo = tiporesultante(p[1][1], '-', p[3][1])
+    if tipo is None and p[1][1] and p[3][1]:
+        print(f"error semantico: '-' invalido entre '{p[1][1]}' y '{p[3][1]}'")
+        hayErrores = True
+        tipo = p[1][1]
+    temp = nuevoTemp()
+    generarCuadruplo('-', p[1][0], p[3][0], temp)
+    pilaOperandos.append(temp); pilaTipos.append(tipo)
+    p[0] = (temp, tipo)
 
-def p_exp_p_suma(p):  # + algo 
-    '''exp_p : SUMA termino exp_p''' #(entrega #2)
-    p[0] = ('+', p[2], p[3])
+def p_exp_termino(p): # (entrega #3)
+    '''exp : termino'''
+    p[0] = p[1]
 
-def p_exp_p_resta(p):  # - algo 
-    '''exp_p : RESTA termino exp_p''' #(entrega #2)
-    p[0] = ('-', p[2], p[3])
-
-def p_exp_p_vacio(p): # ya no hay mas
-    '''exp_p : empty'''
-    p[0] = None
-
-# multiplicación y división: 2 * 3 / 4
-def p_termino(p): #(entrega #2)
-    '''termino : factor termino_p'''
+# multiplicación y división: left-recursive
+def p_termino_mult(p): # (entrega #3)
+    '''termino : termino MULTIPLICACION factor'''
     global hayErrores
-    if p[2] is None:
-        p[0] = p[1]
-    else:
-        op, tipo2, _ = p[2]
-        resultado = tiporesultante(p[1], op, tipo2) if (p[1] and tipo2) else None
-        if resultado is None and p[1] and tipo2:
-            print(f"  ✗ Error semantico: operacion '{op}' invalida entre '{p[1]}' y '{tipo2}'")
-            hayErrores = True
-        p[0] = resultado
+    tipo = tiporesultante(p[1][1], '*', p[3][1])
+    if tipo is None and p[1][1] and p[3][1]:
+        print(f"error semantico: '*' invalido entre '{p[1][1]}' y '{p[3][1]}'")
+        hayErrores = True
+        tipo = p[1][1]
+    temp = nuevoTemp()
+    generarCuadruplo('*', p[1][0], p[3][0], temp)
+    pilaOperandos.append(temp); pilaTipos.append(tipo)
+    p[0] = (temp, tipo)
 
-def p_termino_p_mult(p):  # * algo 
-    '''termino_p : MULTIPLICACION factor termino_p'''
-    p[0] = ('*', p[2], p[3])
+def p_termino_div(p): # (entrega #3)
+    '''termino : termino DIVISION factor'''
+    global hayErrores
+    tipo = tiporesultante(p[1][1], '/', p[3][1])
+    if tipo is None and p[1][1] and p[3][1]:
+        print(f"error semantico: '/' invalido entre '{p[1][1]}' y '{p[3][1]}'")
+        hayErrores = True
+        tipo = p[1][1]
+    temp = nuevoTemp()
+    generarCuadruplo('/', p[1][0], p[3][0], temp)
+    pilaOperandos.append(temp); pilaTipos.append(tipo)
+    p[0] = (temp, tipo)
 
-def p_termino_p_div(p):  # / algo 
-    '''termino_p : DIVISION factor termino_p'''
-    p[0] = ('/', p[2], p[3])
+def p_termino_factor(p): # (entrega #3)
+    '''termino : factor'''
+    p[0] = p[1]
 
-def p_termino_p_vacio(p): # ya no hay mas
-    '''termino_p : empty'''
-    p[0] = None
-
-def p_factor_parentesis(p): # uso de parentesis (algo)
+# uso de parentesis (algo)
+def p_factor_parentesis(p): # (entrega #3)
     '''factor : PARENTIZQ expresion PARENTDER'''
     p[0] = p[2]
 
-def p_factor_operando(p): 
+# operando con signo opcional: -x o +x o x
+def p_factor_operando(p): # (entrega #3)
     '''factor : signo_opc operando'''
-    p[0] = p[2] if p[1] is None else (p[1], p[2])
+    nombre, tipo = p[2]
+    if p[1] is not None:
+        temp = nuevoTemp()
+        generarCuadruplo(p[1], nombre, None, temp)
+        pilaOperandos.append(temp); pilaTipos.append(tipo)
+        p[0] = (temp, tipo)
+    else:
+        p[0] = p[2]
 
-def p_signo_opc_pos(p):
+def p_signo_opc_pos(p): # (entrega #3)
     '''signo_opc : SUMA'''
     p[0] = '+'
 
-def p_signo_opc_neg(p): 
+def p_signo_opc_neg(p): # (entrega #3)
     '''signo_opc : RESTA'''
     p[0] = '-'
 
-def p_signo_opc_vacio(p):
+def p_signo_opc_vacio(p): # (entrega #3)
     '''signo_opc : empty'''
     p[0] = None
 
-def p_operando_cte(p):
+def p_operando_cte(p): # (entrega #3)
     '''operando : cte'''
     p[0] = p[1]
 
-def p_operando_id(p): #(entrega #2)
+# busca el tipo de la variable y la pushea a las pilas
+def p_operando_id(p): # (entrega #3)
     '''operando : ID'''
     global hayErrores
     tipo = buscarVariable(p[1])
     if tipo is None:
         print(f"error semantico: variable '{p[1]}' no declarada (linea {p.lineno(1)})")
         hayErrores = True
-    p[0] = tipo
+        tipo = 'error'
+    pilaOperandos.append(p[1]); pilaTipos.append(tipo)
+    p[0] = (p[1], tipo)
 
-def p_cte_ent(p): #(entrega #2)
+# constantes pushean su valor y tipo a las pilas
+def p_cte_ent(p): # (entrega #3)
     '''cte : CTE_ENT'''
-    p[0] = 'entero'
+    pilaOperandos.append(str(p[1])); pilaTipos.append('entero')
+    p[0] = (str(p[1]), 'entero')
 
-def p_cte_flot(p): #(entrega #2)
-    '''cte : CTE_FLOT'''
-    p[0] = 'flotante'
+def p_cte_flot(p): # (entrega #3)
+    '''cte : CTE_FLOT''' 
+    pilaOperandos.append(str(p[1])); pilaTipos.append('flotante')
+    p[0] = (str(p[1]), 'flotante')
 
 # regla vacía 
 def p_empty(p):
@@ -586,15 +617,52 @@ if __name__ == '__main__':
     directorioFunciones.clear()   #entrega #2
     ambitoActual = None           #entrega #2
     hayErrores = False            #entrega #2
+    filaCuadruplos.clear()        #entrega #3
+    pilaOperandos.clear()         #entrega #3
+    pilaTipos.clear()             #entrega #3
+    pilaOperadores.clear()        #entrega #3
+    contTemp[0] = 0               #entrega #3
+
+
+# entrega 3 -> pilas y fila de cuadruplos empieza aqui
+pilaOperandos  = []
+pilaTipos      = []
+pilaOperadores = []
+filaCuadruplos = []
+contTemp       = [0]
+
+
+def nuevoTemp():
+    contTemp[0] += 1
+    return f"t{contTemp[0]}"
+
+def generarCuadruplo(op, izq, der, res):
+    filaCuadruplos.append((
+        op,
+        izq if izq is not None else '_',
+        der if der is not None else '_',
+        res if res is not None else '_'
+    ))
+
+def imprimirCuadruplos():
+    print("\n" + "=" * 45)
+    print(" FILA DE CUADRUPLOS ".center(45))
+    print("=" * 45)
+    print(f"{'#':<5} {'OP':<10} {'IZQ':<10} {'DER':<10} {'RES':<10}")
+    print("-" * 45)
+    for i, (op, izq, der, res) in enumerate[Any](filaCuadruplos):
+        print(f"{i:<5} {str(op):<10} {str(izq):<10} {str(der):<10} {str(res):<10}")
+    print("=" * 45)
+
+# Entrega 3 ^^^
 
     print(f"\nAnalizando: {archivo}")
-    print("-" * 40)
 
-    resultado = parser.parse(codigo, lexer=lexer.clone())
+resultado = parser.parse(codigo, lexer=lexer.clone())
 
-
-    if resultado and not hayErrores:
+if resultado and not hayErrores:
         print("programa válido: analisis lexico y sintatico correcto")
         imprimirDirectorio()
-    else:
+        imprimirCuadruplos()
+else:
         print("programa tiene errores")
