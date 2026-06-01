@@ -1,0 +1,14 @@
+programa prueba;
+vars
+    resultado : entero;
+nula duplicar (entero n)
+{
+    resultado = n + n;
+};
+inicio
+{
+    resultado = 0;
+    duplicar(5);
+    escribe(resultado);
+}
+fin

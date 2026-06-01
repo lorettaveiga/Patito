@@ -1,0 +1,15 @@
+programa prueba;
+vars
+    x, z : entero;
+inicio
+{
+    x = 5;
+    z = 0;
+    si (x > 3) {
+        z = 1;
+    } sino {
+        z = 2;
+    };
+    escribe(z);
+}
+fin

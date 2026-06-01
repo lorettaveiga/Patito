@@ -1,5 +1,6 @@
 # scanner texto -> tokens
 # lee y hace las piezas del rompecabezas
+from typing import Any
 import ply.lex as lex 
 
 #revisa el orden de los tokens (si hacen oraciones)
@@ -51,25 +52,80 @@ pilaTipos      = []
 pilaOperadores = []
 filaCuadruplos = []
 contTemp       = [0]
+pilaJumps = [] #(entrega #4)
 
+
+# (entrega #4) manejo de direcciones virtuales
+_contadores_dir = {
+    'global':    {'entero': 1000, 'flotante': 1500},
+    'constante': {'entero': 2000, 'flotante': 2500},
+    'local':     {'entero': 3000, 'flotante': 3500},
+    'temporal':  {'entero': 4000, 'flotante': 4500, 'bool': 4900},
+}
+_limites_dir = {
+    'global':    {'entero': 1499, 'flotante': 1999},
+    'constante': {'entero': 2499, 'flotante': 2999},
+    'local':     {'entero': 3499, 'flotante': 3999},
+    'temporal':  {'entero': 4499, 'flotante': 4899, 'bool': 4999},
+}
+tablaConstantes = {}
+
+def asignarDireccion(segmento, tipo):
+    global hayErrores
+    cont = _contadores_dir[segmento]
+    lim  = _limites_dir[segmento]
+    if tipo not in cont:
+        print(f"error: tipo '{tipo}' no tiene rango en segmento '{segmento}'")
+        hayErrores = True
+        return -1
+    if cont[tipo] > lim[tipo]:
+        print(f"error: memoria '{segmento}/{tipo}' llena (limite {lim[tipo]})")
+        hayErrores = True
+        return -1
+    dir_ = cont[tipo]
+    cont[tipo] += 1
+    return dir_
+
+def resetDirecciones():
+    _contadores_dir['global']    = {'entero': 1000, 'flotante': 1500}
+    _contadores_dir['constante'] = {'entero': 2000, 'flotante': 2500}
+    _contadores_dir['local']     = {'entero': 3000, 'flotante': 3500}
+    _contadores_dir['temporal']  = {'entero': 4000, 'flotante': 4500, 'bool': 4900}
+    tablaConstantes.clear()
 
 # directorio de funciones y helpers: (entrega #2)
-def registrarVariable(nombre, tipo, linea=0):
+def registrarVariable(nombre, tipo, linea=0): 
     global hayErrores
     tabla = directorioFunciones[ambitoActual]['tablaVariables']
     if nombre in tabla:
         print(f"error semantico: variable '{nombre}' ya declarada en '{ambitoActual}' (linea {linea})")
         hayErrores = True
     else:
-        tabla[nombre] = {'tipo': tipo}
+        segmento = 'global' if ambitoActual == 'global' else 'local' #(entrega #4)
+        dir_ = asignarDireccion(segmento, tipo)
+        if dir_ == -1:
+            print(f"error semantico: no hay memoria disponible para '{nombre}' (linea {linea})")
+            hayErrores = True
+            return
+    tabla[nombre] = {'tipo': tipo, 'dir': dir_}
 
-def buscarVariable(nombre):
+def buscarVariable(nombre): 
     if ambitoActual in directorioFunciones:
         if nombre in directorioFunciones[ambitoActual]['tablaVariables']:
             return directorioFunciones[ambitoActual]['tablaVariables'][nombre]['tipo']
     if 'global' in directorioFunciones:
         if nombre in directorioFunciones['global']['tablaVariables']:
             return directorioFunciones['global']['tablaVariables'][nombre]['tipo']
+    return None
+
+#(entrega #4)
+def buscarDireccion(nombre):
+    if ambitoActual in directorioFunciones:
+        if nombre in directorioFunciones[ambitoActual]['tablaVariables']:
+            return directorioFunciones[ambitoActual]['tablaVariables'][nombre]['dir']
+    if 'global' in directorioFunciones:
+        if nombre in directorioFunciones['global']['tablaVariables']:
+            return directorioFunciones['global']['tablaVariables'][nombre]['dir']
     return None
 
 def imprimirDirectorio():
@@ -80,7 +136,8 @@ def imprimirDirectorio():
         print(f"    variables:")
         if info['tablaVariables']:
             for var, datos in info['tablaVariables'].items():
-                print(f"      {var:15} -> {datos['tipo']}")
+                dir_str = datos.get('dir', '?') #(entrega #4)
+                print(f"      {var:15} -> {datos['tipo']:10} dir: {dir_str:4}") #(entrega #4)
         else:
             print("      (ninguna)")
 
@@ -305,6 +362,7 @@ def p_func_inicio(p):      #(entrega #2)
 def p_func(p): #(entrega #2)
     '''func : func_inicio params_opc PARENTDER vars_opc cuerpo PUNTOCOMA'''
     global ambitoActual
+    generarCuadruplo('ENDFUNC', None, None, None)  # (entrega #4) PN-O
     ambitoActual = 'global'
     p[0] = ('func', p[1])
 
@@ -361,40 +419,136 @@ def p_asigna(p): # (entrega #3)
         if tipoVar != tipo_expr and not (tipoVar == 'flotante' and tipo_expr == 'entero'):
             print(f"error semantico: no se puede asignar '{tipo_expr}' a '{p[1]}' de tipo '{tipoVar}'")
             hayErrores = True
-    generarCuadruplo('=', nombre_expr, None, p[1])
-    p[0] = ('asigna', p[1])
+    dir_dest = buscarDireccion(p[1]) if tipoVar else p[1] #(entrega #4)
+    generarCuadruplo('=', nombre_expr, None, dir_dest) #(entrega #4)
 
 
 # Conddicion si (expresion) { líneas } sino { líneas }
-def p_condicion(p):
-    '''condicion : SI PARENTIZQ expresion PARENTDER cuerpo sino_opc PUNTOCOMA'''
-    p[0] = ('condicion', p[3], p[5], p[6])
+def p_condicion_inicio(p):  # (entrega #4) PN-F
+    '''condicion_inicio : SI PARENTIZQ expresion PARENTDER'''
+    cond, _ = p[3]
+    idx = len(filaCuadruplos)
+    generarCuadruplo('GOTOF', cond, None, None)  # destino pendiente
+    pilaJumps.append(idx)
 
-def p_sino_opc_con(p):  # sí trae sino { }
-    '''sino_opc : SINO cuerpo'''
-    p[0] = ('sino', p[2])
+def p_condicion(p):  # (entrega #4) PN-G y PN-H
+    '''condicion : condicion_inicio cuerpo sino_opc PUNTOCOMA'''
+    p[0] = ('condicion',)
 
-def p_sino_opc_vacio(p): # no trae sino
+def p_sino_opc_con(p):  # (entrega #4) PN-G + PN-H
+    '''sino_opc : sino_inicio cuerpo'''
+    # PN-H: rellena el GOTO que quedó pendiente
+    idx_goto = pilaJumps.pop()
+    filaCuadruplos[idx_goto] = (
+        filaCuadruplos[idx_goto][0],
+        filaCuadruplos[idx_goto][1],
+        filaCuadruplos[idx_goto][2],
+        len(filaCuadruplos)
+    )
+    p[0] = ('sino',)
+
+def p_sino_inicio(p):  # (entrega #4) PN-G
+    '''sino_inicio : SINO'''
+    # rellena el GOTOF pendiente con la dirección actual
+    idx_gotof = pilaJumps.pop()
+    filaCuadruplos[idx_gotof] = (
+        filaCuadruplos[idx_gotof][0],
+        filaCuadruplos[idx_gotof][1],
+        filaCuadruplos[idx_gotof][2],
+        len(filaCuadruplos)
+    )
+    # genera GOTO para saltar el sino, queda pendiente
+    idx_goto = len(filaCuadruplos)
+    generarCuadruplo('GOTO', None, None, None)
+    pilaJumps.append(idx_goto)
+
+def p_sino_opc_vacio(p):  # (entrega #4) sin sino
     '''sino_opc : empty'''
+    # rellena el GOTOF directamente al cuádruplo actual
+    idx_gotof = pilaJumps.pop()
+    filaCuadruplos[idx_gotof] = (
+        filaCuadruplos[idx_gotof][0],
+        filaCuadruplos[idx_gotof][1],
+        filaCuadruplos[idx_gotof][2],
+        len(filaCuadruplos)
+    )
     p[0] = None
+
 
 # Loop
 #mientras (algo) haz { ... }
-def p_ciclo(p):
-    '''ciclo : MIENTRAS PARENTIZQ expresion PARENTDER HAZ cuerpo PUNTOCOMA'''
-    p[0] = ('ciclo', p[3], p[6])
+def p_ciclo_inicio(p):  # (entrega #4) PN-I: guarda donde empieza la condición
+    '''ciclo_inicio : MIENTRAS'''
+    pilaJumps.append(len(filaCuadruplos))  # índice de regreso
+
+def p_ciclo_cond(p):  # (entrega #4) PN-J: evalúa condición y genera GOTOF
+    '''ciclo_cond : ciclo_inicio PARENTIZQ expresion PARENTDER'''
+    cond, _ = p[3]
+    idx = len(filaCuadruplos)
+    generarCuadruplo('GOTOF', cond, None, None)  # destino pendiente
+    pilaJumps.append(idx)
+
+def p_ciclo(p):  # (entrega #4) PN-K: cierra el ciclo
+    '''ciclo : ciclo_cond HAZ cuerpo PUNTOCOMA'''
+    # saca el GOTOF pendiente
+    idx_gotof = pilaJumps.pop()
+    # saca el índice de regreso
+    idx_regreso = pilaJumps.pop()
+    # genera GOTO de regreso al inicio
+    generarCuadruplo('GOTO', None, None, idx_regreso)
+    # rellena el GOTOF con el cuádruplo actual (salida del ciclo)
+    filaCuadruplos[idx_gotof] = (
+        filaCuadruplos[idx_gotof][0],
+        filaCuadruplos[idx_gotof][1],
+        filaCuadruplos[idx_gotof][2],
+        len(filaCuadruplos)
+    )
+    p[0] = ('ciclo',)
 
 # call funciones 
-def p_llamada(p): #(entrega #2)
-    '''llamada : ID PARENTIZQ args_opc PARENTDER PUNTOCOMA'''
+def p_llamada_inicio(p):  # (entrega #4) PN-L
+    '''llamada_inicio : ID PARENTIZQ'''
     global hayErrores
     if p[1] not in directorioFunciones:
         print(f"error semantico: funcion '{p[1]}' no declarada (linea {p.lineno(1)})")
         hayErrores = True
+    else:
+        generarCuadruplo('ERA', p[1], None, None)  # reserva memoria
+    p[0] = p[1]  # guarda el nombre de la función
+
+def p_llamada(p):  # (entrega #4) PN-N
+    '''llamada : llamada_inicio args_opc PARENTDER PUNTOCOMA'''
+    generarCuadruplo('GOSUB', p[1], None, None)  # llama la función
     p[0] = ('llamada', p[1])
 
 def p_args_opc_con(p):  # con argumentos: f(1, 2)
-    '''args_opc : expresion args_p'''
+    '''args_opc : arg args_p'''
+    pass
+
+def p_args_opc_vacio(p): # sin argumentos: f()
+    '''args_opc : empty'''
+    pass
+
+def p_arg(p):  # (entrega #4) PN-M
+    '''arg : expresion'''
+    val, _ = p[1]
+    generarCuadruplo('PARAM', val, None, None)
+    p[0] = p[1]
+
+def p_args_p_con(p):  # , otro argumento
+    '''args_p : COMA arg args_p'''
+    pass
+
+def p_args_p_vacio(p): # ya no hay más argumentos
+    '''args_p : empty'''
+    pass
+
+def p_args_opc_con(p):
+    '''args_opc : arg args_p'''
+    pass
+
+def p_args_p_con(p):
+    '''args_p : COMA arg args_p'''
     pass
 
 def p_args_opc_vacio(p): # sin argumentos: f()
@@ -435,28 +589,28 @@ def p_items_p_vacio(p):
 # expresión completa: puede llevar > < == != 
 def p_expresion_mayor(p): # (entrega #3)
     '''expresion : exp MAYORQUE exp'''
-    temp = nuevoTemp()
+    temp = nuevoTempTipado('bool')  #(entrega #4)
     generarCuadruplo('>', p[1][0], p[3][0], temp)
     pilaOperandos.append(temp); pilaTipos.append('bool')
     p[0] = (temp, 'bool')
 
 def p_expresion_menor(p): # (entrega #3)
     '''expresion : exp MENORQUE exp'''
-    temp = nuevoTemp()
+    temp = nuevoTempTipado('bool')  #(entrega #4)
     generarCuadruplo('<', p[1][0], p[3][0], temp)
     pilaOperandos.append(temp); pilaTipos.append('bool')
     p[0] = (temp, 'bool')
 
 def p_expresion_diferente(p): # (entrega #3)        
     '''expresion : exp DIFERENTE exp'''
-    temp = nuevoTemp()
+    temp = nuevoTempTipado('bool')  #(entrega #4)
     generarCuadruplo('!=', p[1][0], p[3][0], temp)
     pilaOperandos.append(temp); pilaTipos.append('bool')
     p[0] = (temp, 'bool')
 
 def p_expresion_igual(p): # (entrega #3)
     '''expresion : exp IGUALIGUAL exp'''
-    temp = nuevoTemp()
+    temp = nuevoTempTipado('bool')  #(entrega #4)
     generarCuadruplo('==', p[1][0], p[3][0], temp)
     pilaOperandos.append(temp); pilaTipos.append('bool')
     p[0] = (temp, 'bool')
@@ -474,7 +628,7 @@ def p_exp_suma(p): # (entrega #3)
         print(f"error semantico: '+' invalido entre '{p[1][1]}' y '{p[3][1]}'")
         hayErrores = True
         tipo = p[1][1]
-    temp = nuevoTemp()
+    temp = nuevoTempTipado(tipo) #(entrega #4)
     generarCuadruplo('+', p[1][0], p[3][0], temp)
     pilaOperandos.append(temp); pilaTipos.append(tipo)
     p[0] = (temp, tipo)
@@ -487,7 +641,8 @@ def p_exp_resta(p): # (entrega #3)
         print(f"error semantico: '-' invalido entre '{p[1][1]}' y '{p[3][1]}'")
         hayErrores = True
         tipo = p[1][1]
-    temp = nuevoTemp()
+    temp = nuevoTempTipado(tipo) #(entrega #4)
+
     generarCuadruplo('-', p[1][0], p[3][0], temp)
     pilaOperandos.append(temp); pilaTipos.append(tipo)
     p[0] = (temp, tipo)
@@ -505,7 +660,7 @@ def p_termino_mult(p): # (entrega #3)
         print(f"error semantico: '*' invalido entre '{p[1][1]}' y '{p[3][1]}'")
         hayErrores = True
         tipo = p[1][1]
-    temp = nuevoTemp()
+    temp = nuevoTempTipado(tipo) #(entrega #4)
     generarCuadruplo('*', p[1][0], p[3][0], temp)
     pilaOperandos.append(temp); pilaTipos.append(tipo)
     p[0] = (temp, tipo)
@@ -518,7 +673,7 @@ def p_termino_div(p): # (entrega #3)
         print(f"error semantico: '/' invalido entre '{p[1][1]}' y '{p[3][1]}'")
         hayErrores = True
         tipo = p[1][1]
-    temp = nuevoTemp()
+    temp = nuevoTempTipado(tipo) #(entrega #4)
     generarCuadruplo('/', p[1][0], p[3][0], temp)
     pilaOperandos.append(temp); pilaTipos.append(tipo)
     p[0] = (temp, tipo)
@@ -569,19 +724,29 @@ def p_operando_id(p): # (entrega #3)
         print(f"error semantico: variable '{p[1]}' no declarada (linea {p.lineno(1)})")
         hayErrores = True
         tipo = 'error'
-    pilaOperandos.append(p[1]); pilaTipos.append(tipo)
-    p[0] = (p[1], tipo)
+    dir_ = buscarDireccion(p[1]) if tipo != 'error' else p[1] #(entrega #4)
+    pilaOperandos.append(dir_); pilaTipos.append(tipo) #(entrega #4)
+    p[0] = (dir_, tipo) #(entrega #4)
 
 # constantes pushean su valor y tipo a las pilas
-def p_cte_ent(p): # (entrega #3)
+def p_cte_ent(p): #(entrega #4)
     '''cte : CTE_ENT'''
-    pilaOperandos.append(str(p[1])); pilaTipos.append('entero')
-    p[0] = (str(p[1]), 'entero')
+    clave = str(p[1])
+    if clave not in tablaConstantes:
+        tablaConstantes[clave] = asignarDireccion('constante', 'entero')
+    dir_ = tablaConstantes[clave]
+    pilaOperandos.append(dir_); pilaTipos.append('entero')
+    p[0] = (dir_, 'entero')
 
-def p_cte_flot(p): # (entrega #3)
-    '''cte : CTE_FLOT''' 
-    pilaOperandos.append(str(p[1])); pilaTipos.append('flotante')
-    p[0] = (str(p[1]), 'flotante')
+
+def p_cte_flot(p): #(entrega #4)
+    '''cte : CTE_FLOT'''
+    clave = str(p[1])
+    if clave not in tablaConstantes:
+        tablaConstantes[clave] = asignarDireccion('constante', 'flotante')
+    dir_ = tablaConstantes[clave]
+    pilaOperandos.append(dir_); pilaTipos.append('flotante')
+    p[0] = (dir_, 'flotante')
 
 # regla vacía 
 def p_empty(p):
@@ -594,6 +759,48 @@ def p_error(p):
         print(f"Error sintactico: token inesperado '{p.value}' en linea {p.lineno}")
     else:
         print("Error sintactico: fin de archivo inesperado")
+
+def nuevoTemp(): #entrega #4
+    contTemp[0] += 1
+    return f"t{contTemp[0]}"
+
+def nuevoTempTipado(tipo): #entrega #4
+    contTemp[0] += 1
+    tipo_seg = tipo if tipo in ('entero', 'flotante', 'bool') else 'entero'
+    dir_ = asignarDireccion('temporal', tipo_seg)
+    return dir_
+
+def generarCuadruplo(op, izq, der, res):
+    filaCuadruplos.append((
+        op,
+        izq if izq is not None else '_',
+        der if der is not None else '_',
+        res if res is not None else '_'
+    ))
+
+def imprimirCuadruplos():
+    print("=" * 45)
+    print(" FILA DE CUADRUPLOS ".center(45))
+    print("=" * 45)
+    print(f"{'#':<5} {'OP':<10} {'IZQ':<10} {'DER':<10} {'RES':<10}")
+    print("-" * 45)
+    for i, (op, izq, der, res) in enumerate(filaCuadruplos): #(entrega #4)
+        print(f"{i:<5} {str(op):<10} {str(izq):<10} {str(der):<10} {str(res):<10}")
+    print("-" * 45)
+
+# Entrega 3 ^^^
+
+def imprimirConstantes():
+    if not tablaConstantes:
+        return
+    print("=" * 45)
+    print(" TABLA DE CONSTANTES ".center(35))
+    print("=" * 45)
+    print(f"{'VALOR':<15} {'DIR':<10}")
+    print("-" * 45)
+    for val, dir_ in tablaConstantes.items():
+        print(f"{val:<15} {dir_:<10}")
+    print("-" * 45)
 
 # Construir el parser 
 parser = yacc.yacc(errorlog=yacc.NullLogger())
@@ -614,55 +821,28 @@ if __name__ == '__main__':
         print(f"Error: no se encontro el archivo '{archivo}'")
         sys.exit(1)
 
-    directorioFunciones.clear()   #entrega #2
-    ambitoActual = None           #entrega #2
-    hayErrores = False            #entrega #2
-    filaCuadruplos.clear()        #entrega #3
-    pilaOperandos.clear()         #entrega #3
-    pilaTipos.clear()             #entrega #3
-    pilaOperadores.clear()        #entrega #3
-    contTemp[0] = 0               #entrega #3
-
-
-# entrega 3 -> pilas y fila de cuadruplos empieza aqui
-pilaOperandos  = []
-pilaTipos      = []
-pilaOperadores = []
-filaCuadruplos = []
-contTemp       = [0]
-
-
-def nuevoTemp():
-    contTemp[0] += 1
-    return f"t{contTemp[0]}"
-
-def generarCuadruplo(op, izq, der, res):
-    filaCuadruplos.append((
-        op,
-        izq if izq is not None else '_',
-        der if der is not None else '_',
-        res if res is not None else '_'
-    ))
-
-def imprimirCuadruplos():
-    print("\n" + "=" * 45)
-    print(" FILA DE CUADRUPLOS ".center(45))
-    print("=" * 45)
-    print(f"{'#':<5} {'OP':<10} {'IZQ':<10} {'DER':<10} {'RES':<10}")
-    print("-" * 45)
-    for i, (op, izq, der, res) in enumerate[Any](filaCuadruplos):
-        print(f"{i:<5} {str(op):<10} {str(izq):<10} {str(der):<10} {str(res):<10}")
-    print("=" * 45)
-
-# Entrega 3 ^^^
+    directorioFunciones.clear()
+    ambitoActual = None
+    hayErrores = False
+    filaCuadruplos.clear()
+    pilaOperandos.clear()
+    pilaTipos.clear()
+    pilaOperadores.clear()
+    pilaJumps.clear()        # (entrega #4)
+    contTemp[0] = 0
+    resetDirecciones()       # (entrega #4)
 
     print(f"\nAnalizando: {archivo}")
+    resultado = parser.parse(codigo, lexer=lexer.clone())
 
-resultado = parser.parse(codigo, lexer=lexer.clone())
-
-if resultado and not hayErrores:
-        print("programa válido: analisis lexico y sintatico correcto")
+    if not hayErrores:
+        print("programa valido")
         imprimirDirectorio()
+        imprimirConstantes()   # (entrega #4)
         imprimirCuadruplos()
-else:
+    else:
         print("programa tiene errores")
+
+
+
+
