@@ -3,168 +3,170 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Grammar
 
 Rule 0     S' -> programa
-Rule 1     programa -> programa_inicio vars_opc funcs_opc INICIO cuerpo FIN
-Rule 2     programa_inicio -> PROGRAMA ID PUNTOCOMA
-Rule 3     vars_opc -> VARS lista_decl vars_p
-Rule 4     vars_opc -> empty
-Rule 5     vars_p -> lista_decl vars_p
-Rule 6     vars_p -> empty
-Rule 7     lista_decl -> decl lista_decl_p
-Rule 8     lista_decl_p -> decl lista_decl_p
-Rule 9     lista_decl_p -> empty
-Rule 10    decl -> ID lista_ids DOSPUNTOS tipo PUNTOCOMA
-Rule 11    lista_ids -> COMA ID lista_ids
-Rule 12    lista_ids -> empty
-Rule 13    tipo -> ENTERO
-Rule 14    tipo -> FLOTANTE
-Rule 15    funcs_opc -> funcs
-Rule 16    funcs_opc -> empty
-Rule 17    funcs -> func funcs
-Rule 18    funcs -> func
-Rule 19    func_inicio -> NULA ID PARENTIZQ
-Rule 20    func -> func_inicio params_opc PARENTDER vars_opc cuerpo PUNTOCOMA
-Rule 21    params_opc -> tipo ID params_p
-Rule 22    params_p -> COMA tipo ID params_p
-Rule 23    params_p -> empty
-Rule 24    cuerpo -> LLAVEIZQ estatutos LLAVEDER
-Rule 25    estatutos -> estatuto estatutos
-Rule 26    estatutos -> empty
-Rule 27    estatuto -> asigna
-Rule 28    estatuto -> condicion
-Rule 29    estatuto -> ciclo
-Rule 30    estatuto -> llamada
-Rule 31    estatuto -> imprime
-Rule 32    asigna -> ID ASIGNACION expresion PUNTOCOMA
-Rule 33    condicion_inicio -> SI PARENTIZQ expresion PARENTDER
-Rule 34    condicion -> condicion_inicio cuerpo sino_opc PUNTOCOMA
-Rule 35    sino_opc -> sino_inicio cuerpo
-Rule 36    sino_inicio -> SINO
-Rule 37    sino_opc -> empty
-Rule 38    ciclo_inicio -> MIENTRAS
-Rule 39    ciclo_cond -> ciclo_inicio PARENTIZQ expresion PARENTDER
-Rule 40    ciclo -> ciclo_cond HAZ cuerpo PUNTOCOMA
-Rule 41    llamada_inicio -> ID PARENTIZQ
-Rule 42    llamada -> llamada_inicio args_opc PARENTDER PUNTOCOMA
-Rule 43    arg -> expresion
+Rule 1     programa -> programa_inicio vars_opc funcs_opc main_inicio cuerpo FIN
+Rule 2     main_inicio -> INICIO
+Rule 3     programa_inicio -> PROGRAMA ID PUNTOCOMA
+Rule 4     vars_opc -> VARS lista_decl vars_p
+Rule 5     vars_opc -> empty
+Rule 6     vars_p -> lista_decl vars_p
+Rule 7     vars_p -> empty
+Rule 8     lista_decl -> decl lista_decl_p
+Rule 9     lista_decl_p -> decl lista_decl_p
+Rule 10    lista_decl_p -> empty
+Rule 11    decl -> ID lista_ids DOSPUNTOS tipo PUNTOCOMA
+Rule 12    lista_ids -> COMA ID lista_ids
+Rule 13    lista_ids -> empty
+Rule 14    tipo -> ENTERO
+Rule 15    tipo -> FLOTANTE
+Rule 16    funcs_opc -> funcs
+Rule 17    funcs_opc -> empty
+Rule 18    funcs -> func funcs
+Rule 19    funcs -> func
+Rule 20    func_inicio -> NULA ID PARENTIZQ
+Rule 21    func -> func_inicio params_opc PARENTDER vars_opc cuerpo PUNTOCOMA
+Rule 22    params_opc -> tipo ID params_p
+Rule 23    params_p -> COMA tipo ID params_p
+Rule 24    params_p -> empty
+Rule 25    cuerpo -> LLAVEIZQ estatutos LLAVEDER
+Rule 26    estatutos -> estatuto estatutos
+Rule 27    estatutos -> empty
+Rule 28    estatuto -> asigna
+Rule 29    estatuto -> condicion
+Rule 30    estatuto -> ciclo
+Rule 31    estatuto -> llamada
+Rule 32    estatuto -> imprime
+Rule 33    asigna -> ID ASIGNACION expresion PUNTOCOMA
+Rule 34    condicion_inicio -> SI PARENTIZQ expresion PARENTDER
+Rule 35    condicion -> condicion_inicio cuerpo sino_opc PUNTOCOMA
+Rule 36    sino_opc -> sino_inicio cuerpo
+Rule 37    sino_inicio -> SINO
+Rule 38    sino_opc -> empty
+Rule 39    ciclo_inicio -> MIENTRAS
+Rule 40    ciclo_cond -> ciclo_inicio PARENTIZQ expresion PARENTDER
+Rule 41    ciclo -> ciclo_cond HAZ cuerpo PUNTOCOMA
+Rule 42    llamada_inicio -> ID PARENTIZQ
+Rule 43    llamada -> llamada_inicio args_opc PARENTDER PUNTOCOMA
 Rule 44    args_opc -> arg args_p
 Rule 45    args_opc -> empty
-Rule 46    args_p -> COMA expresion args_p
-Rule 47    args_p -> empty
-Rule 48    imprime -> ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA
-Rule 49    item_imp -> expresion
-Rule 50    item_imp -> LETRERO
-Rule 51    items_p -> COMA item_imp items_p
-Rule 52    items_p -> empty
-Rule 53    expresion -> exp MAYORQUE exp
-Rule 54    expresion -> exp MENORQUE exp
-Rule 55    expresion -> exp DIFERENTE exp
-Rule 56    expresion -> exp IGUALIGUAL exp
-Rule 57    expresion -> exp
-Rule 58    exp -> exp SUMA termino
-Rule 59    exp -> exp RESTA termino
-Rule 60    exp -> termino
-Rule 61    termino -> termino MULTIPLICACION factor
-Rule 62    termino -> termino DIVISION factor
-Rule 63    termino -> factor
-Rule 64    factor -> PARENTIZQ expresion PARENTDER
-Rule 65    factor -> signo_opc operando
-Rule 66    signo_opc -> SUMA
-Rule 67    signo_opc -> RESTA
-Rule 68    signo_opc -> empty
-Rule 69    operando -> cte
-Rule 70    operando -> ID
-Rule 71    cte -> CTE_ENT
-Rule 72    cte -> CTE_FLOT
-Rule 73    empty -> <empty>
+Rule 46    arg -> expresion
+Rule 47    args_p -> COMA arg args_p
+Rule 48    args_p -> empty
+Rule 49    imprime -> ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA
+Rule 50    item_imp -> expresion
+Rule 51    item_imp -> LETRERO
+Rule 52    items_p -> COMA item_imp items_p
+Rule 53    items_p -> empty
+Rule 54    expresion -> exp MAYORQUE exp
+Rule 55    expresion -> exp MENORQUE exp
+Rule 56    expresion -> exp DIFERENTE exp
+Rule 57    expresion -> exp IGUALIGUAL exp
+Rule 58    expresion -> exp
+Rule 59    exp -> exp SUMA termino
+Rule 60    exp -> exp RESTA termino
+Rule 61    exp -> termino
+Rule 62    termino -> termino MULTIPLICACION factor
+Rule 63    termino -> termino DIVISION factor
+Rule 64    termino -> factor
+Rule 65    factor -> PARENTIZQ expresion PARENTDER
+Rule 66    factor -> signo_opc operando
+Rule 67    signo_opc -> SUMA
+Rule 68    signo_opc -> RESTA
+Rule 69    signo_opc -> empty
+Rule 70    operando -> cte
+Rule 71    operando -> ID
+Rule 72    cte -> CTE_ENT
+Rule 73    cte -> CTE_FLOT
+Rule 74    empty -> <empty>
 
 Terminals, with rules where they appear
 
-ASIGNACION           : 32
-COMA                 : 11 22 46 51
-CTE_ENT              : 71
-CTE_FLOT             : 72
-DIFERENTE            : 55
-DIVISION             : 62
-DOSPUNTOS            : 10
-ENTERO               : 13
-ESCRIBE              : 48
+ASIGNACION           : 33
+COMA                 : 12 23 47 52
+CTE_ENT              : 72
+CTE_FLOT             : 73
+DIFERENTE            : 56
+DIVISION             : 63
+DOSPUNTOS            : 11
+ENTERO               : 14
+ESCRIBE              : 49
 FIN                  : 1
-FLOTANTE             : 14
-HAZ                  : 40
-ID                   : 2 10 11 19 21 22 32 41 70
-IGUALIGUAL           : 56
-INICIO               : 1
-LETRERO              : 50
-LLAVEDER             : 24
-LLAVEIZQ             : 24
-MAYORQUE             : 53
-MENORQUE             : 54
-MIENTRAS             : 38
-MULTIPLICACION       : 61
-NULA                 : 19
-PARENTDER            : 20 33 39 42 48 64
-PARENTIZQ            : 19 33 39 41 48 64
-PROGRAMA             : 2
-PUNTOCOMA            : 2 10 20 32 34 40 42 48
-RESTA                : 59 67
-SI                   : 33
-SINO                 : 36
-SUMA                 : 58 66
-VARS                 : 3
+FLOTANTE             : 15
+HAZ                  : 41
+ID                   : 3 11 12 20 22 23 33 42 71
+IGUALIGUAL           : 57
+INICIO               : 2
+LETRERO              : 51
+LLAVEDER             : 25
+LLAVEIZQ             : 25
+MAYORQUE             : 54
+MENORQUE             : 55
+MIENTRAS             : 39
+MULTIPLICACION       : 62
+NULA                 : 20
+PARENTDER            : 21 34 40 43 49 65
+PARENTIZQ            : 20 34 40 42 49 65
+PROGRAMA             : 3
+PUNTOCOMA            : 3 11 21 33 35 41 43 49
+RESTA                : 60 68
+SI                   : 34
+SINO                 : 37
+SUMA                 : 59 67
+VARS                 : 4
 error                : 
 
 Nonterminals, with rules where they appear
 
-arg                  : 44
-args_opc             : 42
-args_p               : 44 46
-asigna               : 27
-ciclo                : 29
-ciclo_cond           : 40
-ciclo_inicio         : 39
-condicion            : 28
-condicion_inicio     : 34
-cte                  : 69
-cuerpo               : 1 20 34 35 40
-decl                 : 7 8
-empty                : 4 6 9 12 16 23 26 37 45 47 52 68
-estatuto             : 25
-estatutos            : 24 25
-exp                  : 53 53 54 54 55 55 56 56 57 58 59
-expresion            : 32 33 39 43 46 49 64
-factor               : 61 62 63
-func                 : 17 18
-func_inicio          : 20
-funcs                : 15 17
+arg                  : 44 47
+args_opc             : 43
+args_p               : 44 47
+asigna               : 28
+ciclo                : 30
+ciclo_cond           : 41
+ciclo_inicio         : 40
+condicion            : 29
+condicion_inicio     : 35
+cte                  : 70
+cuerpo               : 1 21 35 36 41
+decl                 : 8 9
+empty                : 5 7 10 13 17 24 27 38 45 48 53 69
+estatuto             : 26
+estatutos            : 25 26
+exp                  : 54 54 55 55 56 56 57 57 58 59 60
+expresion            : 33 34 40 46 50 65
+factor               : 62 63 64
+func                 : 18 19
+func_inicio          : 21
+funcs                : 16 18
 funcs_opc            : 1
-imprime              : 31
-item_imp             : 48 51
-items_p              : 48 51
-lista_decl           : 3 5
-lista_decl_p         : 7 8
-lista_ids            : 10 11
-llamada              : 30
-llamada_inicio       : 42
-operando             : 65
-params_opc           : 20
-params_p             : 21 22
+imprime              : 32
+item_imp             : 49 52
+items_p              : 49 52
+lista_decl           : 4 6
+lista_decl_p         : 8 9
+lista_ids            : 11 12
+llamada              : 31
+llamada_inicio       : 43
+main_inicio          : 1
+operando             : 66
+params_opc           : 21
+params_p             : 22 23
 programa             : 0
 programa_inicio      : 1
-signo_opc            : 65
-sino_inicio          : 35
-sino_opc             : 34
-termino              : 58 59 60 61 62
-tipo                 : 10 21 22
-vars_opc             : 1 20
-vars_p               : 3 5
+signo_opc            : 66
+sino_inicio          : 36
+sino_opc             : 35
+termino              : 59 60 61 62 63
+tipo                 : 11 22 23
+vars_opc             : 1 21
+vars_p               : 4 6
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . programa
-    (1) programa -> . programa_inicio vars_opc funcs_opc INICIO cuerpo FIN
-    (2) programa_inicio -> . PROGRAMA ID PUNTOCOMA
+    (1) programa -> . programa_inicio vars_opc funcs_opc main_inicio cuerpo FIN
+    (3) programa_inicio -> . PROGRAMA ID PUNTOCOMA
 
     PROGRAMA        shift and go to state 3
 
@@ -179,37 +181,37 @@ state 1
 
 state 2
 
-    (1) programa -> programa_inicio . vars_opc funcs_opc INICIO cuerpo FIN
-    (3) vars_opc -> . VARS lista_decl vars_p
-    (4) vars_opc -> . empty
-    (73) empty -> .
+    (1) programa -> programa_inicio . vars_opc funcs_opc main_inicio cuerpo FIN
+    (4) vars_opc -> . VARS lista_decl vars_p
+    (5) vars_opc -> . empty
+    (74) empty -> .
 
     VARS            shift and go to state 5
-    NULA            reduce using rule 73 (empty -> .)
-    INICIO          reduce using rule 73 (empty -> .)
+    NULA            reduce using rule 74 (empty -> .)
+    INICIO          reduce using rule 74 (empty -> .)
 
     vars_opc                       shift and go to state 4
     empty                          shift and go to state 6
 
 state 3
 
-    (2) programa_inicio -> PROGRAMA . ID PUNTOCOMA
+    (3) programa_inicio -> PROGRAMA . ID PUNTOCOMA
 
     ID              shift and go to state 7
 
 
 state 4
 
-    (1) programa -> programa_inicio vars_opc . funcs_opc INICIO cuerpo FIN
-    (15) funcs_opc -> . funcs
-    (16) funcs_opc -> . empty
-    (17) funcs -> . func funcs
-    (18) funcs -> . func
-    (73) empty -> .
-    (20) func -> . func_inicio params_opc PARENTDER vars_opc cuerpo PUNTOCOMA
-    (19) func_inicio -> . NULA ID PARENTIZQ
+    (1) programa -> programa_inicio vars_opc . funcs_opc main_inicio cuerpo FIN
+    (16) funcs_opc -> . funcs
+    (17) funcs_opc -> . empty
+    (18) funcs -> . func funcs
+    (19) funcs -> . func
+    (74) empty -> .
+    (21) func -> . func_inicio params_opc PARENTDER vars_opc cuerpo PUNTOCOMA
+    (20) func_inicio -> . NULA ID PARENTIZQ
 
-    INICIO          reduce using rule 73 (empty -> .)
+    INICIO          reduce using rule 74 (empty -> .)
     NULA            shift and go to state 13
 
     funcs_opc                      shift and go to state 8
@@ -220,9 +222,9 @@ state 4
 
 state 5
 
-    (3) vars_opc -> VARS . lista_decl vars_p
-    (7) lista_decl -> . decl lista_decl_p
-    (10) decl -> . ID lista_ids DOSPUNTOS tipo PUNTOCOMA
+    (4) vars_opc -> VARS . lista_decl vars_p
+    (8) lista_decl -> . decl lista_decl_p
+    (11) decl -> . ID lista_ids DOSPUNTOS tipo PUNTOCOMA
 
     ID              shift and go to state 16
 
@@ -231,1854 +233,1865 @@ state 5
 
 state 6
 
-    (4) vars_opc -> empty .
+    (5) vars_opc -> empty .
 
-    NULA            reduce using rule 4 (vars_opc -> empty .)
-    INICIO          reduce using rule 4 (vars_opc -> empty .)
-    LLAVEIZQ        reduce using rule 4 (vars_opc -> empty .)
+    NULA            reduce using rule 5 (vars_opc -> empty .)
+    INICIO          reduce using rule 5 (vars_opc -> empty .)
+    LLAVEIZQ        reduce using rule 5 (vars_opc -> empty .)
 
 
 state 7
 
-    (2) programa_inicio -> PROGRAMA ID . PUNTOCOMA
+    (3) programa_inicio -> PROGRAMA ID . PUNTOCOMA
 
     PUNTOCOMA       shift and go to state 17
 
 
 state 8
 
-    (1) programa -> programa_inicio vars_opc funcs_opc . INICIO cuerpo FIN
+    (1) programa -> programa_inicio vars_opc funcs_opc . main_inicio cuerpo FIN
+    (2) main_inicio -> . INICIO
 
-    INICIO          shift and go to state 18
+    INICIO          shift and go to state 19
 
+    main_inicio                    shift and go to state 18
 
 state 9
 
-    (15) funcs_opc -> funcs .
+    (16) funcs_opc -> funcs .
 
-    INICIO          reduce using rule 15 (funcs_opc -> funcs .)
+    INICIO          reduce using rule 16 (funcs_opc -> funcs .)
 
 
 state 10
 
-    (16) funcs_opc -> empty .
+    (17) funcs_opc -> empty .
 
-    INICIO          reduce using rule 16 (funcs_opc -> empty .)
+    INICIO          reduce using rule 17 (funcs_opc -> empty .)
 
 
 state 11
 
-    (17) funcs -> func . funcs
-    (18) funcs -> func .
-    (17) funcs -> . func funcs
-    (18) funcs -> . func
-    (20) func -> . func_inicio params_opc PARENTDER vars_opc cuerpo PUNTOCOMA
-    (19) func_inicio -> . NULA ID PARENTIZQ
+    (18) funcs -> func . funcs
+    (19) funcs -> func .
+    (18) funcs -> . func funcs
+    (19) funcs -> . func
+    (21) func -> . func_inicio params_opc PARENTDER vars_opc cuerpo PUNTOCOMA
+    (20) func_inicio -> . NULA ID PARENTIZQ
 
-    INICIO          reduce using rule 18 (funcs -> func .)
+    INICIO          reduce using rule 19 (funcs -> func .)
     NULA            shift and go to state 13
 
     func                           shift and go to state 11
-    funcs                          shift and go to state 19
+    funcs                          shift and go to state 20
     func_inicio                    shift and go to state 12
 
 state 12
 
-    (20) func -> func_inicio . params_opc PARENTDER vars_opc cuerpo PUNTOCOMA
-    (21) params_opc -> . tipo ID params_p
-    (13) tipo -> . ENTERO
-    (14) tipo -> . FLOTANTE
+    (21) func -> func_inicio . params_opc PARENTDER vars_opc cuerpo PUNTOCOMA
+    (22) params_opc -> . tipo ID params_p
+    (14) tipo -> . ENTERO
+    (15) tipo -> . FLOTANTE
 
-    ENTERO          shift and go to state 22
-    FLOTANTE        shift and go to state 23
+    ENTERO          shift and go to state 23
+    FLOTANTE        shift and go to state 24
 
-    params_opc                     shift and go to state 20
-    tipo                           shift and go to state 21
+    params_opc                     shift and go to state 21
+    tipo                           shift and go to state 22
 
 state 13
 
-    (19) func_inicio -> NULA . ID PARENTIZQ
+    (20) func_inicio -> NULA . ID PARENTIZQ
 
-    ID              shift and go to state 24
+    ID              shift and go to state 25
 
 
 state 14
 
-    (3) vars_opc -> VARS lista_decl . vars_p
-    (5) vars_p -> . lista_decl vars_p
-    (6) vars_p -> . empty
-    (7) lista_decl -> . decl lista_decl_p
-    (73) empty -> .
-    (10) decl -> . ID lista_ids DOSPUNTOS tipo PUNTOCOMA
+    (4) vars_opc -> VARS lista_decl . vars_p
+    (6) vars_p -> . lista_decl vars_p
+    (7) vars_p -> . empty
+    (8) lista_decl -> . decl lista_decl_p
+    (74) empty -> .
+    (11) decl -> . ID lista_ids DOSPUNTOS tipo PUNTOCOMA
 
-    NULA            reduce using rule 73 (empty -> .)
-    INICIO          reduce using rule 73 (empty -> .)
-    LLAVEIZQ        reduce using rule 73 (empty -> .)
+    NULA            reduce using rule 74 (empty -> .)
+    INICIO          reduce using rule 74 (empty -> .)
+    LLAVEIZQ        reduce using rule 74 (empty -> .)
     ID              shift and go to state 16
 
-    lista_decl                     shift and go to state 25
-    vars_p                         shift and go to state 26
-    empty                          shift and go to state 27
+    lista_decl                     shift and go to state 26
+    vars_p                         shift and go to state 27
+    empty                          shift and go to state 28
     decl                           shift and go to state 15
 
 state 15
 
-    (7) lista_decl -> decl . lista_decl_p
-    (8) lista_decl_p -> . decl lista_decl_p
-    (9) lista_decl_p -> . empty
-    (10) decl -> . ID lista_ids DOSPUNTOS tipo PUNTOCOMA
-    (73) empty -> .
+    (8) lista_decl -> decl . lista_decl_p
+    (9) lista_decl_p -> . decl lista_decl_p
+    (10) lista_decl_p -> . empty
+    (11) decl -> . ID lista_ids DOSPUNTOS tipo PUNTOCOMA
+    (74) empty -> .
 
   ! shift/reduce conflict for ID resolved as shift
     ID              shift and go to state 16
-    NULA            reduce using rule 73 (empty -> .)
-    INICIO          reduce using rule 73 (empty -> .)
-    LLAVEIZQ        reduce using rule 73 (empty -> .)
+    NULA            reduce using rule 74 (empty -> .)
+    INICIO          reduce using rule 74 (empty -> .)
+    LLAVEIZQ        reduce using rule 74 (empty -> .)
 
-  ! ID              [ reduce using rule 73 (empty -> .) ]
+  ! ID              [ reduce using rule 74 (empty -> .) ]
 
-    decl                           shift and go to state 28
-    lista_decl_p                   shift and go to state 29
-    empty                          shift and go to state 30
+    decl                           shift and go to state 29
+    lista_decl_p                   shift and go to state 30
+    empty                          shift and go to state 31
 
 state 16
 
-    (10) decl -> ID . lista_ids DOSPUNTOS tipo PUNTOCOMA
-    (11) lista_ids -> . COMA ID lista_ids
-    (12) lista_ids -> . empty
-    (73) empty -> .
+    (11) decl -> ID . lista_ids DOSPUNTOS tipo PUNTOCOMA
+    (12) lista_ids -> . COMA ID lista_ids
+    (13) lista_ids -> . empty
+    (74) empty -> .
 
-    COMA            shift and go to state 32
-    DOSPUNTOS       reduce using rule 73 (empty -> .)
+    COMA            shift and go to state 33
+    DOSPUNTOS       reduce using rule 74 (empty -> .)
 
-    lista_ids                      shift and go to state 31
-    empty                          shift and go to state 33
+    lista_ids                      shift and go to state 32
+    empty                          shift and go to state 34
 
 state 17
 
-    (2) programa_inicio -> PROGRAMA ID PUNTOCOMA .
+    (3) programa_inicio -> PROGRAMA ID PUNTOCOMA .
 
-    VARS            reduce using rule 2 (programa_inicio -> PROGRAMA ID PUNTOCOMA .)
-    NULA            reduce using rule 2 (programa_inicio -> PROGRAMA ID PUNTOCOMA .)
-    INICIO          reduce using rule 2 (programa_inicio -> PROGRAMA ID PUNTOCOMA .)
+    VARS            reduce using rule 3 (programa_inicio -> PROGRAMA ID PUNTOCOMA .)
+    NULA            reduce using rule 3 (programa_inicio -> PROGRAMA ID PUNTOCOMA .)
+    INICIO          reduce using rule 3 (programa_inicio -> PROGRAMA ID PUNTOCOMA .)
 
 
 state 18
 
-    (1) programa -> programa_inicio vars_opc funcs_opc INICIO . cuerpo FIN
-    (24) cuerpo -> . LLAVEIZQ estatutos LLAVEDER
+    (1) programa -> programa_inicio vars_opc funcs_opc main_inicio . cuerpo FIN
+    (25) cuerpo -> . LLAVEIZQ estatutos LLAVEDER
 
-    LLAVEIZQ        shift and go to state 35
+    LLAVEIZQ        shift and go to state 36
 
-    cuerpo                         shift and go to state 34
+    cuerpo                         shift and go to state 35
 
 state 19
 
-    (17) funcs -> func funcs .
+    (2) main_inicio -> INICIO .
 
-    INICIO          reduce using rule 17 (funcs -> func funcs .)
+    LLAVEIZQ        reduce using rule 2 (main_inicio -> INICIO .)
 
 
 state 20
 
-    (20) func -> func_inicio params_opc . PARENTDER vars_opc cuerpo PUNTOCOMA
+    (18) funcs -> func funcs .
 
-    PARENTDER       shift and go to state 36
+    INICIO          reduce using rule 18 (funcs -> func funcs .)
 
 
 state 21
 
-    (21) params_opc -> tipo . ID params_p
+    (21) func -> func_inicio params_opc . PARENTDER vars_opc cuerpo PUNTOCOMA
 
-    ID              shift and go to state 37
+    PARENTDER       shift and go to state 37
 
 
 state 22
 
-    (13) tipo -> ENTERO .
+    (22) params_opc -> tipo . ID params_p
 
-    ID              reduce using rule 13 (tipo -> ENTERO .)
-    PUNTOCOMA       reduce using rule 13 (tipo -> ENTERO .)
+    ID              shift and go to state 38
 
 
 state 23
 
-    (14) tipo -> FLOTANTE .
+    (14) tipo -> ENTERO .
 
-    ID              reduce using rule 14 (tipo -> FLOTANTE .)
-    PUNTOCOMA       reduce using rule 14 (tipo -> FLOTANTE .)
+    ID              reduce using rule 14 (tipo -> ENTERO .)
+    PUNTOCOMA       reduce using rule 14 (tipo -> ENTERO .)
 
 
 state 24
 
-    (19) func_inicio -> NULA ID . PARENTIZQ
+    (15) tipo -> FLOTANTE .
 
-    PARENTIZQ       shift and go to state 38
+    ID              reduce using rule 15 (tipo -> FLOTANTE .)
+    PUNTOCOMA       reduce using rule 15 (tipo -> FLOTANTE .)
 
 
 state 25
 
-    (5) vars_p -> lista_decl . vars_p
-    (5) vars_p -> . lista_decl vars_p
-    (6) vars_p -> . empty
-    (7) lista_decl -> . decl lista_decl_p
-    (73) empty -> .
-    (10) decl -> . ID lista_ids DOSPUNTOS tipo PUNTOCOMA
+    (20) func_inicio -> NULA ID . PARENTIZQ
 
-    NULA            reduce using rule 73 (empty -> .)
-    INICIO          reduce using rule 73 (empty -> .)
-    LLAVEIZQ        reduce using rule 73 (empty -> .)
-    ID              shift and go to state 16
+    PARENTIZQ       shift and go to state 39
 
-    lista_decl                     shift and go to state 25
-    vars_p                         shift and go to state 39
-    empty                          shift and go to state 27
-    decl                           shift and go to state 15
 
 state 26
 
-    (3) vars_opc -> VARS lista_decl vars_p .
+    (6) vars_p -> lista_decl . vars_p
+    (6) vars_p -> . lista_decl vars_p
+    (7) vars_p -> . empty
+    (8) lista_decl -> . decl lista_decl_p
+    (74) empty -> .
+    (11) decl -> . ID lista_ids DOSPUNTOS tipo PUNTOCOMA
 
-    NULA            reduce using rule 3 (vars_opc -> VARS lista_decl vars_p .)
-    INICIO          reduce using rule 3 (vars_opc -> VARS lista_decl vars_p .)
-    LLAVEIZQ        reduce using rule 3 (vars_opc -> VARS lista_decl vars_p .)
+    NULA            reduce using rule 74 (empty -> .)
+    INICIO          reduce using rule 74 (empty -> .)
+    LLAVEIZQ        reduce using rule 74 (empty -> .)
+    ID              shift and go to state 16
 
+    lista_decl                     shift and go to state 26
+    vars_p                         shift and go to state 40
+    empty                          shift and go to state 28
+    decl                           shift and go to state 15
 
 state 27
 
-    (6) vars_p -> empty .
+    (4) vars_opc -> VARS lista_decl vars_p .
 
-    NULA            reduce using rule 6 (vars_p -> empty .)
-    INICIO          reduce using rule 6 (vars_p -> empty .)
-    LLAVEIZQ        reduce using rule 6 (vars_p -> empty .)
+    NULA            reduce using rule 4 (vars_opc -> VARS lista_decl vars_p .)
+    INICIO          reduce using rule 4 (vars_opc -> VARS lista_decl vars_p .)
+    LLAVEIZQ        reduce using rule 4 (vars_opc -> VARS lista_decl vars_p .)
 
 
 state 28
 
-    (8) lista_decl_p -> decl . lista_decl_p
-    (8) lista_decl_p -> . decl lista_decl_p
-    (9) lista_decl_p -> . empty
-    (10) decl -> . ID lista_ids DOSPUNTOS tipo PUNTOCOMA
-    (73) empty -> .
+    (7) vars_p -> empty .
 
-  ! shift/reduce conflict for ID resolved as shift
-    ID              shift and go to state 16
-    NULA            reduce using rule 73 (empty -> .)
-    INICIO          reduce using rule 73 (empty -> .)
-    LLAVEIZQ        reduce using rule 73 (empty -> .)
+    NULA            reduce using rule 7 (vars_p -> empty .)
+    INICIO          reduce using rule 7 (vars_p -> empty .)
+    LLAVEIZQ        reduce using rule 7 (vars_p -> empty .)
 
-  ! ID              [ reduce using rule 73 (empty -> .) ]
-
-    decl                           shift and go to state 28
-    lista_decl_p                   shift and go to state 40
-    empty                          shift and go to state 30
 
 state 29
 
-    (7) lista_decl -> decl lista_decl_p .
+    (9) lista_decl_p -> decl . lista_decl_p
+    (9) lista_decl_p -> . decl lista_decl_p
+    (10) lista_decl_p -> . empty
+    (11) decl -> . ID lista_ids DOSPUNTOS tipo PUNTOCOMA
+    (74) empty -> .
 
-    ID              reduce using rule 7 (lista_decl -> decl lista_decl_p .)
-    NULA            reduce using rule 7 (lista_decl -> decl lista_decl_p .)
-    INICIO          reduce using rule 7 (lista_decl -> decl lista_decl_p .)
-    LLAVEIZQ        reduce using rule 7 (lista_decl -> decl lista_decl_p .)
+  ! shift/reduce conflict for ID resolved as shift
+    ID              shift and go to state 16
+    NULA            reduce using rule 74 (empty -> .)
+    INICIO          reduce using rule 74 (empty -> .)
+    LLAVEIZQ        reduce using rule 74 (empty -> .)
 
+  ! ID              [ reduce using rule 74 (empty -> .) ]
+
+    decl                           shift and go to state 29
+    lista_decl_p                   shift and go to state 41
+    empty                          shift and go to state 31
 
 state 30
 
-    (9) lista_decl_p -> empty .
+    (8) lista_decl -> decl lista_decl_p .
 
-    ID              reduce using rule 9 (lista_decl_p -> empty .)
-    NULA            reduce using rule 9 (lista_decl_p -> empty .)
-    INICIO          reduce using rule 9 (lista_decl_p -> empty .)
-    LLAVEIZQ        reduce using rule 9 (lista_decl_p -> empty .)
+    ID              reduce using rule 8 (lista_decl -> decl lista_decl_p .)
+    NULA            reduce using rule 8 (lista_decl -> decl lista_decl_p .)
+    INICIO          reduce using rule 8 (lista_decl -> decl lista_decl_p .)
+    LLAVEIZQ        reduce using rule 8 (lista_decl -> decl lista_decl_p .)
 
 
 state 31
 
-    (10) decl -> ID lista_ids . DOSPUNTOS tipo PUNTOCOMA
+    (10) lista_decl_p -> empty .
 
-    DOSPUNTOS       shift and go to state 41
+    ID              reduce using rule 10 (lista_decl_p -> empty .)
+    NULA            reduce using rule 10 (lista_decl_p -> empty .)
+    INICIO          reduce using rule 10 (lista_decl_p -> empty .)
+    LLAVEIZQ        reduce using rule 10 (lista_decl_p -> empty .)
 
 
 state 32
 
-    (11) lista_ids -> COMA . ID lista_ids
+    (11) decl -> ID lista_ids . DOSPUNTOS tipo PUNTOCOMA
 
-    ID              shift and go to state 42
+    DOSPUNTOS       shift and go to state 42
 
 
 state 33
 
-    (12) lista_ids -> empty .
+    (12) lista_ids -> COMA . ID lista_ids
 
-    DOSPUNTOS       reduce using rule 12 (lista_ids -> empty .)
+    ID              shift and go to state 43
 
 
 state 34
 
-    (1) programa -> programa_inicio vars_opc funcs_opc INICIO cuerpo . FIN
+    (13) lista_ids -> empty .
 
-    FIN             shift and go to state 43
+    DOSPUNTOS       reduce using rule 13 (lista_ids -> empty .)
 
 
 state 35
 
-    (24) cuerpo -> LLAVEIZQ . estatutos LLAVEDER
-    (25) estatutos -> . estatuto estatutos
-    (26) estatutos -> . empty
-    (27) estatuto -> . asigna
-    (28) estatuto -> . condicion
-    (29) estatuto -> . ciclo
-    (30) estatuto -> . llamada
-    (31) estatuto -> . imprime
-    (73) empty -> .
-    (32) asigna -> . ID ASIGNACION expresion PUNTOCOMA
-    (34) condicion -> . condicion_inicio cuerpo sino_opc PUNTOCOMA
-    (40) ciclo -> . ciclo_cond HAZ cuerpo PUNTOCOMA
-    (42) llamada -> . llamada_inicio args_opc PARENTDER PUNTOCOMA
-    (48) imprime -> . ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA
-    (33) condicion_inicio -> . SI PARENTIZQ expresion PARENTDER
-    (39) ciclo_cond -> . ciclo_inicio PARENTIZQ expresion PARENTDER
-    (41) llamada_inicio -> . ID PARENTIZQ
-    (38) ciclo_inicio -> . MIENTRAS
+    (1) programa -> programa_inicio vars_opc funcs_opc main_inicio cuerpo . FIN
 
-    LLAVEDER        reduce using rule 73 (empty -> .)
-    ID              shift and go to state 52
-    ESCRIBE         shift and go to state 56
-    SI              shift and go to state 57
-    MIENTRAS        shift and go to state 59
+    FIN             shift and go to state 44
 
-    estatutos                      shift and go to state 44
-    estatuto                       shift and go to state 45
-    empty                          shift and go to state 46
-    asigna                         shift and go to state 47
-    condicion                      shift and go to state 48
-    ciclo                          shift and go to state 49
-    llamada                        shift and go to state 50
-    imprime                        shift and go to state 51
-    condicion_inicio               shift and go to state 53
-    ciclo_cond                     shift and go to state 54
-    llamada_inicio                 shift and go to state 55
-    ciclo_inicio                   shift and go to state 58
 
 state 36
 
-    (20) func -> func_inicio params_opc PARENTDER . vars_opc cuerpo PUNTOCOMA
-    (3) vars_opc -> . VARS lista_decl vars_p
-    (4) vars_opc -> . empty
-    (73) empty -> .
+    (25) cuerpo -> LLAVEIZQ . estatutos LLAVEDER
+    (26) estatutos -> . estatuto estatutos
+    (27) estatutos -> . empty
+    (28) estatuto -> . asigna
+    (29) estatuto -> . condicion
+    (30) estatuto -> . ciclo
+    (31) estatuto -> . llamada
+    (32) estatuto -> . imprime
+    (74) empty -> .
+    (33) asigna -> . ID ASIGNACION expresion PUNTOCOMA
+    (35) condicion -> . condicion_inicio cuerpo sino_opc PUNTOCOMA
+    (41) ciclo -> . ciclo_cond HAZ cuerpo PUNTOCOMA
+    (43) llamada -> . llamada_inicio args_opc PARENTDER PUNTOCOMA
+    (49) imprime -> . ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA
+    (34) condicion_inicio -> . SI PARENTIZQ expresion PARENTDER
+    (40) ciclo_cond -> . ciclo_inicio PARENTIZQ expresion PARENTDER
+    (42) llamada_inicio -> . ID PARENTIZQ
+    (39) ciclo_inicio -> . MIENTRAS
 
-    VARS            shift and go to state 5
-    LLAVEIZQ        reduce using rule 73 (empty -> .)
+    LLAVEDER        reduce using rule 74 (empty -> .)
+    ID              shift and go to state 53
+    ESCRIBE         shift and go to state 57
+    SI              shift and go to state 58
+    MIENTRAS        shift and go to state 60
 
-    vars_opc                       shift and go to state 60
-    empty                          shift and go to state 6
+    estatutos                      shift and go to state 45
+    estatuto                       shift and go to state 46
+    empty                          shift and go to state 47
+    asigna                         shift and go to state 48
+    condicion                      shift and go to state 49
+    ciclo                          shift and go to state 50
+    llamada                        shift and go to state 51
+    imprime                        shift and go to state 52
+    condicion_inicio               shift and go to state 54
+    ciclo_cond                     shift and go to state 55
+    llamada_inicio                 shift and go to state 56
+    ciclo_inicio                   shift and go to state 59
 
 state 37
 
-    (21) params_opc -> tipo ID . params_p
-    (22) params_p -> . COMA tipo ID params_p
-    (23) params_p -> . empty
-    (73) empty -> .
+    (21) func -> func_inicio params_opc PARENTDER . vars_opc cuerpo PUNTOCOMA
+    (4) vars_opc -> . VARS lista_decl vars_p
+    (5) vars_opc -> . empty
+    (74) empty -> .
 
-    COMA            shift and go to state 62
-    PARENTDER       reduce using rule 73 (empty -> .)
+    VARS            shift and go to state 5
+    LLAVEIZQ        reduce using rule 74 (empty -> .)
 
-    params_p                       shift and go to state 61
-    empty                          shift and go to state 63
+    vars_opc                       shift and go to state 61
+    empty                          shift and go to state 6
 
 state 38
 
-    (19) func_inicio -> NULA ID PARENTIZQ .
+    (22) params_opc -> tipo ID . params_p
+    (23) params_p -> . COMA tipo ID params_p
+    (24) params_p -> . empty
+    (74) empty -> .
 
-    ENTERO          reduce using rule 19 (func_inicio -> NULA ID PARENTIZQ .)
-    FLOTANTE        reduce using rule 19 (func_inicio -> NULA ID PARENTIZQ .)
+    COMA            shift and go to state 63
+    PARENTDER       reduce using rule 74 (empty -> .)
 
+    params_p                       shift and go to state 62
+    empty                          shift and go to state 64
 
 state 39
 
-    (5) vars_p -> lista_decl vars_p .
+    (20) func_inicio -> NULA ID PARENTIZQ .
 
-    NULA            reduce using rule 5 (vars_p -> lista_decl vars_p .)
-    INICIO          reduce using rule 5 (vars_p -> lista_decl vars_p .)
-    LLAVEIZQ        reduce using rule 5 (vars_p -> lista_decl vars_p .)
+    ENTERO          reduce using rule 20 (func_inicio -> NULA ID PARENTIZQ .)
+    FLOTANTE        reduce using rule 20 (func_inicio -> NULA ID PARENTIZQ .)
 
 
 state 40
 
-    (8) lista_decl_p -> decl lista_decl_p .
+    (6) vars_p -> lista_decl vars_p .
 
-    ID              reduce using rule 8 (lista_decl_p -> decl lista_decl_p .)
-    NULA            reduce using rule 8 (lista_decl_p -> decl lista_decl_p .)
-    INICIO          reduce using rule 8 (lista_decl_p -> decl lista_decl_p .)
-    LLAVEIZQ        reduce using rule 8 (lista_decl_p -> decl lista_decl_p .)
+    NULA            reduce using rule 6 (vars_p -> lista_decl vars_p .)
+    INICIO          reduce using rule 6 (vars_p -> lista_decl vars_p .)
+    LLAVEIZQ        reduce using rule 6 (vars_p -> lista_decl vars_p .)
 
 
 state 41
 
-    (10) decl -> ID lista_ids DOSPUNTOS . tipo PUNTOCOMA
-    (13) tipo -> . ENTERO
-    (14) tipo -> . FLOTANTE
+    (9) lista_decl_p -> decl lista_decl_p .
 
-    ENTERO          shift and go to state 22
-    FLOTANTE        shift and go to state 23
+    ID              reduce using rule 9 (lista_decl_p -> decl lista_decl_p .)
+    NULA            reduce using rule 9 (lista_decl_p -> decl lista_decl_p .)
+    INICIO          reduce using rule 9 (lista_decl_p -> decl lista_decl_p .)
+    LLAVEIZQ        reduce using rule 9 (lista_decl_p -> decl lista_decl_p .)
 
-    tipo                           shift and go to state 64
 
 state 42
 
-    (11) lista_ids -> COMA ID . lista_ids
-    (11) lista_ids -> . COMA ID lista_ids
-    (12) lista_ids -> . empty
-    (73) empty -> .
+    (11) decl -> ID lista_ids DOSPUNTOS . tipo PUNTOCOMA
+    (14) tipo -> . ENTERO
+    (15) tipo -> . FLOTANTE
 
-    COMA            shift and go to state 32
-    DOSPUNTOS       reduce using rule 73 (empty -> .)
+    ENTERO          shift and go to state 23
+    FLOTANTE        shift and go to state 24
 
-    lista_ids                      shift and go to state 65
-    empty                          shift and go to state 33
+    tipo                           shift and go to state 65
 
 state 43
 
-    (1) programa -> programa_inicio vars_opc funcs_opc INICIO cuerpo FIN .
+    (12) lista_ids -> COMA ID . lista_ids
+    (12) lista_ids -> . COMA ID lista_ids
+    (13) lista_ids -> . empty
+    (74) empty -> .
 
-    $end            reduce using rule 1 (programa -> programa_inicio vars_opc funcs_opc INICIO cuerpo FIN .)
+    COMA            shift and go to state 33
+    DOSPUNTOS       reduce using rule 74 (empty -> .)
 
+    lista_ids                      shift and go to state 66
+    empty                          shift and go to state 34
 
 state 44
 
-    (24) cuerpo -> LLAVEIZQ estatutos . LLAVEDER
+    (1) programa -> programa_inicio vars_opc funcs_opc main_inicio cuerpo FIN .
 
-    LLAVEDER        shift and go to state 66
+    $end            reduce using rule 1 (programa -> programa_inicio vars_opc funcs_opc main_inicio cuerpo FIN .)
 
 
 state 45
 
-    (25) estatutos -> estatuto . estatutos
-    (25) estatutos -> . estatuto estatutos
-    (26) estatutos -> . empty
-    (27) estatuto -> . asigna
-    (28) estatuto -> . condicion
-    (29) estatuto -> . ciclo
-    (30) estatuto -> . llamada
-    (31) estatuto -> . imprime
-    (73) empty -> .
-    (32) asigna -> . ID ASIGNACION expresion PUNTOCOMA
-    (34) condicion -> . condicion_inicio cuerpo sino_opc PUNTOCOMA
-    (40) ciclo -> . ciclo_cond HAZ cuerpo PUNTOCOMA
-    (42) llamada -> . llamada_inicio args_opc PARENTDER PUNTOCOMA
-    (48) imprime -> . ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA
-    (33) condicion_inicio -> . SI PARENTIZQ expresion PARENTDER
-    (39) ciclo_cond -> . ciclo_inicio PARENTIZQ expresion PARENTDER
-    (41) llamada_inicio -> . ID PARENTIZQ
-    (38) ciclo_inicio -> . MIENTRAS
+    (25) cuerpo -> LLAVEIZQ estatutos . LLAVEDER
 
-    LLAVEDER        reduce using rule 73 (empty -> .)
-    ID              shift and go to state 52
-    ESCRIBE         shift and go to state 56
-    SI              shift and go to state 57
-    MIENTRAS        shift and go to state 59
+    LLAVEDER        shift and go to state 67
 
-    estatuto                       shift and go to state 45
-    estatutos                      shift and go to state 67
-    empty                          shift and go to state 46
-    asigna                         shift and go to state 47
-    condicion                      shift and go to state 48
-    ciclo                          shift and go to state 49
-    llamada                        shift and go to state 50
-    imprime                        shift and go to state 51
-    condicion_inicio               shift and go to state 53
-    ciclo_cond                     shift and go to state 54
-    llamada_inicio                 shift and go to state 55
-    ciclo_inicio                   shift and go to state 58
 
 state 46
 
-    (26) estatutos -> empty .
+    (26) estatutos -> estatuto . estatutos
+    (26) estatutos -> . estatuto estatutos
+    (27) estatutos -> . empty
+    (28) estatuto -> . asigna
+    (29) estatuto -> . condicion
+    (30) estatuto -> . ciclo
+    (31) estatuto -> . llamada
+    (32) estatuto -> . imprime
+    (74) empty -> .
+    (33) asigna -> . ID ASIGNACION expresion PUNTOCOMA
+    (35) condicion -> . condicion_inicio cuerpo sino_opc PUNTOCOMA
+    (41) ciclo -> . ciclo_cond HAZ cuerpo PUNTOCOMA
+    (43) llamada -> . llamada_inicio args_opc PARENTDER PUNTOCOMA
+    (49) imprime -> . ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA
+    (34) condicion_inicio -> . SI PARENTIZQ expresion PARENTDER
+    (40) ciclo_cond -> . ciclo_inicio PARENTIZQ expresion PARENTDER
+    (42) llamada_inicio -> . ID PARENTIZQ
+    (39) ciclo_inicio -> . MIENTRAS
 
-    LLAVEDER        reduce using rule 26 (estatutos -> empty .)
+    LLAVEDER        reduce using rule 74 (empty -> .)
+    ID              shift and go to state 53
+    ESCRIBE         shift and go to state 57
+    SI              shift and go to state 58
+    MIENTRAS        shift and go to state 60
 
+    estatuto                       shift and go to state 46
+    estatutos                      shift and go to state 68
+    empty                          shift and go to state 47
+    asigna                         shift and go to state 48
+    condicion                      shift and go to state 49
+    ciclo                          shift and go to state 50
+    llamada                        shift and go to state 51
+    imprime                        shift and go to state 52
+    condicion_inicio               shift and go to state 54
+    ciclo_cond                     shift and go to state 55
+    llamada_inicio                 shift and go to state 56
+    ciclo_inicio                   shift and go to state 59
 
 state 47
 
-    (27) estatuto -> asigna .
+    (27) estatutos -> empty .
 
-    ID              reduce using rule 27 (estatuto -> asigna .)
-    ESCRIBE         reduce using rule 27 (estatuto -> asigna .)
-    SI              reduce using rule 27 (estatuto -> asigna .)
-    MIENTRAS        reduce using rule 27 (estatuto -> asigna .)
-    LLAVEDER        reduce using rule 27 (estatuto -> asigna .)
+    LLAVEDER        reduce using rule 27 (estatutos -> empty .)
 
 
 state 48
 
-    (28) estatuto -> condicion .
+    (28) estatuto -> asigna .
 
-    ID              reduce using rule 28 (estatuto -> condicion .)
-    ESCRIBE         reduce using rule 28 (estatuto -> condicion .)
-    SI              reduce using rule 28 (estatuto -> condicion .)
-    MIENTRAS        reduce using rule 28 (estatuto -> condicion .)
-    LLAVEDER        reduce using rule 28 (estatuto -> condicion .)
+    ID              reduce using rule 28 (estatuto -> asigna .)
+    ESCRIBE         reduce using rule 28 (estatuto -> asigna .)
+    SI              reduce using rule 28 (estatuto -> asigna .)
+    MIENTRAS        reduce using rule 28 (estatuto -> asigna .)
+    LLAVEDER        reduce using rule 28 (estatuto -> asigna .)
 
 
 state 49
 
-    (29) estatuto -> ciclo .
+    (29) estatuto -> condicion .
 
-    ID              reduce using rule 29 (estatuto -> ciclo .)
-    ESCRIBE         reduce using rule 29 (estatuto -> ciclo .)
-    SI              reduce using rule 29 (estatuto -> ciclo .)
-    MIENTRAS        reduce using rule 29 (estatuto -> ciclo .)
-    LLAVEDER        reduce using rule 29 (estatuto -> ciclo .)
+    ID              reduce using rule 29 (estatuto -> condicion .)
+    ESCRIBE         reduce using rule 29 (estatuto -> condicion .)
+    SI              reduce using rule 29 (estatuto -> condicion .)
+    MIENTRAS        reduce using rule 29 (estatuto -> condicion .)
+    LLAVEDER        reduce using rule 29 (estatuto -> condicion .)
 
 
 state 50
 
-    (30) estatuto -> llamada .
+    (30) estatuto -> ciclo .
 
-    ID              reduce using rule 30 (estatuto -> llamada .)
-    ESCRIBE         reduce using rule 30 (estatuto -> llamada .)
-    SI              reduce using rule 30 (estatuto -> llamada .)
-    MIENTRAS        reduce using rule 30 (estatuto -> llamada .)
-    LLAVEDER        reduce using rule 30 (estatuto -> llamada .)
+    ID              reduce using rule 30 (estatuto -> ciclo .)
+    ESCRIBE         reduce using rule 30 (estatuto -> ciclo .)
+    SI              reduce using rule 30 (estatuto -> ciclo .)
+    MIENTRAS        reduce using rule 30 (estatuto -> ciclo .)
+    LLAVEDER        reduce using rule 30 (estatuto -> ciclo .)
 
 
 state 51
 
-    (31) estatuto -> imprime .
+    (31) estatuto -> llamada .
 
-    ID              reduce using rule 31 (estatuto -> imprime .)
-    ESCRIBE         reduce using rule 31 (estatuto -> imprime .)
-    SI              reduce using rule 31 (estatuto -> imprime .)
-    MIENTRAS        reduce using rule 31 (estatuto -> imprime .)
-    LLAVEDER        reduce using rule 31 (estatuto -> imprime .)
+    ID              reduce using rule 31 (estatuto -> llamada .)
+    ESCRIBE         reduce using rule 31 (estatuto -> llamada .)
+    SI              reduce using rule 31 (estatuto -> llamada .)
+    MIENTRAS        reduce using rule 31 (estatuto -> llamada .)
+    LLAVEDER        reduce using rule 31 (estatuto -> llamada .)
 
 
 state 52
 
-    (32) asigna -> ID . ASIGNACION expresion PUNTOCOMA
-    (41) llamada_inicio -> ID . PARENTIZQ
+    (32) estatuto -> imprime .
 
-    ASIGNACION      shift and go to state 68
-    PARENTIZQ       shift and go to state 69
+    ID              reduce using rule 32 (estatuto -> imprime .)
+    ESCRIBE         reduce using rule 32 (estatuto -> imprime .)
+    SI              reduce using rule 32 (estatuto -> imprime .)
+    MIENTRAS        reduce using rule 32 (estatuto -> imprime .)
+    LLAVEDER        reduce using rule 32 (estatuto -> imprime .)
 
 
 state 53
 
-    (34) condicion -> condicion_inicio . cuerpo sino_opc PUNTOCOMA
-    (24) cuerpo -> . LLAVEIZQ estatutos LLAVEDER
+    (33) asigna -> ID . ASIGNACION expresion PUNTOCOMA
+    (42) llamada_inicio -> ID . PARENTIZQ
 
-    LLAVEIZQ        shift and go to state 35
+    ASIGNACION      shift and go to state 69
+    PARENTIZQ       shift and go to state 70
 
-    cuerpo                         shift and go to state 70
 
 state 54
 
-    (40) ciclo -> ciclo_cond . HAZ cuerpo PUNTOCOMA
+    (35) condicion -> condicion_inicio . cuerpo sino_opc PUNTOCOMA
+    (25) cuerpo -> . LLAVEIZQ estatutos LLAVEDER
 
-    HAZ             shift and go to state 71
+    LLAVEIZQ        shift and go to state 36
 
+    cuerpo                         shift and go to state 71
 
 state 55
 
-    (42) llamada -> llamada_inicio . args_opc PARENTDER PUNTOCOMA
-    (44) args_opc -> . arg args_p
-    (45) args_opc -> . empty
-    (43) arg -> . expresion
-    (73) empty -> .
-    (53) expresion -> . exp MAYORQUE exp
-    (54) expresion -> . exp MENORQUE exp
-    (55) expresion -> . exp DIFERENTE exp
-    (56) expresion -> . exp IGUALIGUAL exp
-    (57) expresion -> . exp
-    (58) exp -> . exp SUMA termino
-    (59) exp -> . exp RESTA termino
-    (60) exp -> . termino
-    (61) termino -> . termino MULTIPLICACION factor
-    (62) termino -> . termino DIVISION factor
-    (63) termino -> . factor
-    (64) factor -> . PARENTIZQ expresion PARENTDER
-    (65) factor -> . signo_opc operando
-    (66) signo_opc -> . SUMA
-    (67) signo_opc -> . RESTA
-    (68) signo_opc -> . empty
+    (41) ciclo -> ciclo_cond . HAZ cuerpo PUNTOCOMA
 
-    PARENTDER       reduce using rule 73 (empty -> .)
-    ID              reduce using rule 73 (empty -> .)
-    CTE_ENT         reduce using rule 73 (empty -> .)
-    CTE_FLOT        reduce using rule 73 (empty -> .)
-    PARENTIZQ       shift and go to state 81
-    SUMA            shift and go to state 77
-    RESTA           shift and go to state 79
+    HAZ             shift and go to state 72
 
-    args_opc                       shift and go to state 72
-    arg                            shift and go to state 73
-    empty                          shift and go to state 74
-    expresion                      shift and go to state 75
-    exp                            shift and go to state 76
-    termino                        shift and go to state 78
-    factor                         shift and go to state 80
-    signo_opc                      shift and go to state 82
 
 state 56
 
-    (48) imprime -> ESCRIBE . PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA
+    (43) llamada -> llamada_inicio . args_opc PARENTDER PUNTOCOMA
+    (44) args_opc -> . arg args_p
+    (45) args_opc -> . empty
+    (46) arg -> . expresion
+    (74) empty -> .
+    (54) expresion -> . exp MAYORQUE exp
+    (55) expresion -> . exp MENORQUE exp
+    (56) expresion -> . exp DIFERENTE exp
+    (57) expresion -> . exp IGUALIGUAL exp
+    (58) expresion -> . exp
+    (59) exp -> . exp SUMA termino
+    (60) exp -> . exp RESTA termino
+    (61) exp -> . termino
+    (62) termino -> . termino MULTIPLICACION factor
+    (63) termino -> . termino DIVISION factor
+    (64) termino -> . factor
+    (65) factor -> . PARENTIZQ expresion PARENTDER
+    (66) factor -> . signo_opc operando
+    (67) signo_opc -> . SUMA
+    (68) signo_opc -> . RESTA
+    (69) signo_opc -> . empty
 
-    PARENTIZQ       shift and go to state 83
+    PARENTDER       reduce using rule 74 (empty -> .)
+    ID              reduce using rule 74 (empty -> .)
+    CTE_ENT         reduce using rule 74 (empty -> .)
+    CTE_FLOT        reduce using rule 74 (empty -> .)
+    PARENTIZQ       shift and go to state 82
+    SUMA            shift and go to state 78
+    RESTA           shift and go to state 80
 
+    args_opc                       shift and go to state 73
+    arg                            shift and go to state 74
+    empty                          shift and go to state 75
+    expresion                      shift and go to state 76
+    exp                            shift and go to state 77
+    termino                        shift and go to state 79
+    factor                         shift and go to state 81
+    signo_opc                      shift and go to state 83
 
 state 57
 
-    (33) condicion_inicio -> SI . PARENTIZQ expresion PARENTDER
+    (49) imprime -> ESCRIBE . PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA
 
     PARENTIZQ       shift and go to state 84
 
 
 state 58
 
-    (39) ciclo_cond -> ciclo_inicio . PARENTIZQ expresion PARENTDER
+    (34) condicion_inicio -> SI . PARENTIZQ expresion PARENTDER
 
     PARENTIZQ       shift and go to state 85
 
 
 state 59
 
-    (38) ciclo_inicio -> MIENTRAS .
+    (40) ciclo_cond -> ciclo_inicio . PARENTIZQ expresion PARENTDER
 
-    PARENTIZQ       reduce using rule 38 (ciclo_inicio -> MIENTRAS .)
+    PARENTIZQ       shift and go to state 86
 
 
 state 60
 
-    (20) func -> func_inicio params_opc PARENTDER vars_opc . cuerpo PUNTOCOMA
-    (24) cuerpo -> . LLAVEIZQ estatutos LLAVEDER
+    (39) ciclo_inicio -> MIENTRAS .
 
-    LLAVEIZQ        shift and go to state 35
+    PARENTIZQ       reduce using rule 39 (ciclo_inicio -> MIENTRAS .)
 
-    cuerpo                         shift and go to state 86
 
 state 61
 
-    (21) params_opc -> tipo ID params_p .
+    (21) func -> func_inicio params_opc PARENTDER vars_opc . cuerpo PUNTOCOMA
+    (25) cuerpo -> . LLAVEIZQ estatutos LLAVEDER
 
-    PARENTDER       reduce using rule 21 (params_opc -> tipo ID params_p .)
+    LLAVEIZQ        shift and go to state 36
 
+    cuerpo                         shift and go to state 87
 
 state 62
 
-    (22) params_p -> COMA . tipo ID params_p
-    (13) tipo -> . ENTERO
-    (14) tipo -> . FLOTANTE
+    (22) params_opc -> tipo ID params_p .
 
-    ENTERO          shift and go to state 22
-    FLOTANTE        shift and go to state 23
+    PARENTDER       reduce using rule 22 (params_opc -> tipo ID params_p .)
 
-    tipo                           shift and go to state 87
 
 state 63
 
-    (23) params_p -> empty .
+    (23) params_p -> COMA . tipo ID params_p
+    (14) tipo -> . ENTERO
+    (15) tipo -> . FLOTANTE
 
-    PARENTDER       reduce using rule 23 (params_p -> empty .)
+    ENTERO          shift and go to state 23
+    FLOTANTE        shift and go to state 24
 
+    tipo                           shift and go to state 88
 
 state 64
 
-    (10) decl -> ID lista_ids DOSPUNTOS tipo . PUNTOCOMA
+    (24) params_p -> empty .
 
-    PUNTOCOMA       shift and go to state 88
+    PARENTDER       reduce using rule 24 (params_p -> empty .)
 
 
 state 65
 
-    (11) lista_ids -> COMA ID lista_ids .
+    (11) decl -> ID lista_ids DOSPUNTOS tipo . PUNTOCOMA
 
-    DOSPUNTOS       reduce using rule 11 (lista_ids -> COMA ID lista_ids .)
+    PUNTOCOMA       shift and go to state 89
 
 
 state 66
 
-    (24) cuerpo -> LLAVEIZQ estatutos LLAVEDER .
+    (12) lista_ids -> COMA ID lista_ids .
 
-    FIN             reduce using rule 24 (cuerpo -> LLAVEIZQ estatutos LLAVEDER .)
-    SINO            reduce using rule 24 (cuerpo -> LLAVEIZQ estatutos LLAVEDER .)
-    PUNTOCOMA       reduce using rule 24 (cuerpo -> LLAVEIZQ estatutos LLAVEDER .)
+    DOSPUNTOS       reduce using rule 12 (lista_ids -> COMA ID lista_ids .)
 
 
 state 67
 
-    (25) estatutos -> estatuto estatutos .
+    (25) cuerpo -> LLAVEIZQ estatutos LLAVEDER .
 
-    LLAVEDER        reduce using rule 25 (estatutos -> estatuto estatutos .)
+    FIN             reduce using rule 25 (cuerpo -> LLAVEIZQ estatutos LLAVEDER .)
+    SINO            reduce using rule 25 (cuerpo -> LLAVEIZQ estatutos LLAVEDER .)
+    PUNTOCOMA       reduce using rule 25 (cuerpo -> LLAVEIZQ estatutos LLAVEDER .)
 
 
 state 68
 
-    (32) asigna -> ID ASIGNACION . expresion PUNTOCOMA
-    (53) expresion -> . exp MAYORQUE exp
-    (54) expresion -> . exp MENORQUE exp
-    (55) expresion -> . exp DIFERENTE exp
-    (56) expresion -> . exp IGUALIGUAL exp
-    (57) expresion -> . exp
-    (58) exp -> . exp SUMA termino
-    (59) exp -> . exp RESTA termino
-    (60) exp -> . termino
-    (61) termino -> . termino MULTIPLICACION factor
-    (62) termino -> . termino DIVISION factor
-    (63) termino -> . factor
-    (64) factor -> . PARENTIZQ expresion PARENTDER
-    (65) factor -> . signo_opc operando
-    (66) signo_opc -> . SUMA
-    (67) signo_opc -> . RESTA
-    (68) signo_opc -> . empty
-    (73) empty -> .
+    (26) estatutos -> estatuto estatutos .
 
-    PARENTIZQ       shift and go to state 81
-    SUMA            shift and go to state 77
-    RESTA           shift and go to state 79
-    ID              reduce using rule 73 (empty -> .)
-    CTE_ENT         reduce using rule 73 (empty -> .)
-    CTE_FLOT        reduce using rule 73 (empty -> .)
+    LLAVEDER        reduce using rule 26 (estatutos -> estatuto estatutos .)
 
-    expresion                      shift and go to state 89
-    exp                            shift and go to state 76
-    termino                        shift and go to state 78
-    factor                         shift and go to state 80
-    signo_opc                      shift and go to state 82
-    empty                          shift and go to state 90
 
 state 69
 
-    (41) llamada_inicio -> ID PARENTIZQ .
+    (33) asigna -> ID ASIGNACION . expresion PUNTOCOMA
+    (54) expresion -> . exp MAYORQUE exp
+    (55) expresion -> . exp MENORQUE exp
+    (56) expresion -> . exp DIFERENTE exp
+    (57) expresion -> . exp IGUALIGUAL exp
+    (58) expresion -> . exp
+    (59) exp -> . exp SUMA termino
+    (60) exp -> . exp RESTA termino
+    (61) exp -> . termino
+    (62) termino -> . termino MULTIPLICACION factor
+    (63) termino -> . termino DIVISION factor
+    (64) termino -> . factor
+    (65) factor -> . PARENTIZQ expresion PARENTDER
+    (66) factor -> . signo_opc operando
+    (67) signo_opc -> . SUMA
+    (68) signo_opc -> . RESTA
+    (69) signo_opc -> . empty
+    (74) empty -> .
 
-    PARENTIZQ       reduce using rule 41 (llamada_inicio -> ID PARENTIZQ .)
-    SUMA            reduce using rule 41 (llamada_inicio -> ID PARENTIZQ .)
-    RESTA           reduce using rule 41 (llamada_inicio -> ID PARENTIZQ .)
-    PARENTDER       reduce using rule 41 (llamada_inicio -> ID PARENTIZQ .)
-    ID              reduce using rule 41 (llamada_inicio -> ID PARENTIZQ .)
-    CTE_ENT         reduce using rule 41 (llamada_inicio -> ID PARENTIZQ .)
-    CTE_FLOT        reduce using rule 41 (llamada_inicio -> ID PARENTIZQ .)
+    PARENTIZQ       shift and go to state 82
+    SUMA            shift and go to state 78
+    RESTA           shift and go to state 80
+    ID              reduce using rule 74 (empty -> .)
+    CTE_ENT         reduce using rule 74 (empty -> .)
+    CTE_FLOT        reduce using rule 74 (empty -> .)
 
+    expresion                      shift and go to state 90
+    exp                            shift and go to state 77
+    termino                        shift and go to state 79
+    factor                         shift and go to state 81
+    signo_opc                      shift and go to state 83
+    empty                          shift and go to state 91
 
 state 70
 
-    (34) condicion -> condicion_inicio cuerpo . sino_opc PUNTOCOMA
-    (35) sino_opc -> . sino_inicio cuerpo
-    (37) sino_opc -> . empty
-    (36) sino_inicio -> . SINO
-    (73) empty -> .
+    (42) llamada_inicio -> ID PARENTIZQ .
 
-    SINO            shift and go to state 94
-    PUNTOCOMA       reduce using rule 73 (empty -> .)
+    PARENTIZQ       reduce using rule 42 (llamada_inicio -> ID PARENTIZQ .)
+    SUMA            reduce using rule 42 (llamada_inicio -> ID PARENTIZQ .)
+    RESTA           reduce using rule 42 (llamada_inicio -> ID PARENTIZQ .)
+    PARENTDER       reduce using rule 42 (llamada_inicio -> ID PARENTIZQ .)
+    ID              reduce using rule 42 (llamada_inicio -> ID PARENTIZQ .)
+    CTE_ENT         reduce using rule 42 (llamada_inicio -> ID PARENTIZQ .)
+    CTE_FLOT        reduce using rule 42 (llamada_inicio -> ID PARENTIZQ .)
 
-    sino_opc                       shift and go to state 91
-    sino_inicio                    shift and go to state 92
-    empty                          shift and go to state 93
 
 state 71
 
-    (40) ciclo -> ciclo_cond HAZ . cuerpo PUNTOCOMA
-    (24) cuerpo -> . LLAVEIZQ estatutos LLAVEDER
+    (35) condicion -> condicion_inicio cuerpo . sino_opc PUNTOCOMA
+    (36) sino_opc -> . sino_inicio cuerpo
+    (38) sino_opc -> . empty
+    (37) sino_inicio -> . SINO
+    (74) empty -> .
 
-    LLAVEIZQ        shift and go to state 35
+    SINO            shift and go to state 95
+    PUNTOCOMA       reduce using rule 74 (empty -> .)
 
-    cuerpo                         shift and go to state 95
+    sino_opc                       shift and go to state 92
+    sino_inicio                    shift and go to state 93
+    empty                          shift and go to state 94
 
 state 72
 
-    (42) llamada -> llamada_inicio args_opc . PARENTDER PUNTOCOMA
+    (41) ciclo -> ciclo_cond HAZ . cuerpo PUNTOCOMA
+    (25) cuerpo -> . LLAVEIZQ estatutos LLAVEDER
 
-    PARENTDER       shift and go to state 96
+    LLAVEIZQ        shift and go to state 36
 
+    cuerpo                         shift and go to state 96
 
 state 73
 
-    (44) args_opc -> arg . args_p
-    (46) args_p -> . COMA expresion args_p
-    (47) args_p -> . empty
-    (73) empty -> .
+    (43) llamada -> llamada_inicio args_opc . PARENTDER PUNTOCOMA
 
-    COMA            shift and go to state 98
-    PARENTDER       reduce using rule 73 (empty -> .)
+    PARENTDER       shift and go to state 97
 
-    args_p                         shift and go to state 97
-    empty                          shift and go to state 99
 
 state 74
 
-    (45) args_opc -> empty .
-    (68) signo_opc -> empty .
+    (44) args_opc -> arg . args_p
+    (47) args_p -> . COMA arg args_p
+    (48) args_p -> . empty
+    (74) empty -> .
 
-    PARENTDER       reduce using rule 45 (args_opc -> empty .)
-    ID              reduce using rule 68 (signo_opc -> empty .)
-    CTE_ENT         reduce using rule 68 (signo_opc -> empty .)
-    CTE_FLOT        reduce using rule 68 (signo_opc -> empty .)
+    COMA            shift and go to state 99
+    PARENTDER       reduce using rule 74 (empty -> .)
 
+    args_p                         shift and go to state 98
+    empty                          shift and go to state 100
 
 state 75
 
-    (43) arg -> expresion .
+    (45) args_opc -> empty .
+    (69) signo_opc -> empty .
 
-    COMA            reduce using rule 43 (arg -> expresion .)
-    PARENTDER       reduce using rule 43 (arg -> expresion .)
+    PARENTDER       reduce using rule 45 (args_opc -> empty .)
+    ID              reduce using rule 69 (signo_opc -> empty .)
+    CTE_ENT         reduce using rule 69 (signo_opc -> empty .)
+    CTE_FLOT        reduce using rule 69 (signo_opc -> empty .)
 
 
 state 76
 
-    (53) expresion -> exp . MAYORQUE exp
-    (54) expresion -> exp . MENORQUE exp
-    (55) expresion -> exp . DIFERENTE exp
-    (56) expresion -> exp . IGUALIGUAL exp
-    (57) expresion -> exp .
-    (58) exp -> exp . SUMA termino
-    (59) exp -> exp . RESTA termino
+    (46) arg -> expresion .
 
-    MAYORQUE        shift and go to state 100
-    MENORQUE        shift and go to state 101
-    DIFERENTE       shift and go to state 102
-    IGUALIGUAL      shift and go to state 103
-    COMA            reduce using rule 57 (expresion -> exp .)
-    PARENTDER       reduce using rule 57 (expresion -> exp .)
-    PUNTOCOMA       reduce using rule 57 (expresion -> exp .)
-    SUMA            shift and go to state 104
-    RESTA           shift and go to state 105
+    COMA            reduce using rule 46 (arg -> expresion .)
+    PARENTDER       reduce using rule 46 (arg -> expresion .)
 
 
 state 77
 
-    (66) signo_opc -> SUMA .
+    (54) expresion -> exp . MAYORQUE exp
+    (55) expresion -> exp . MENORQUE exp
+    (56) expresion -> exp . DIFERENTE exp
+    (57) expresion -> exp . IGUALIGUAL exp
+    (58) expresion -> exp .
+    (59) exp -> exp . SUMA termino
+    (60) exp -> exp . RESTA termino
 
-    ID              reduce using rule 66 (signo_opc -> SUMA .)
-    CTE_ENT         reduce using rule 66 (signo_opc -> SUMA .)
-    CTE_FLOT        reduce using rule 66 (signo_opc -> SUMA .)
+    MAYORQUE        shift and go to state 101
+    MENORQUE        shift and go to state 102
+    DIFERENTE       shift and go to state 103
+    IGUALIGUAL      shift and go to state 104
+    COMA            reduce using rule 58 (expresion -> exp .)
+    PARENTDER       reduce using rule 58 (expresion -> exp .)
+    PUNTOCOMA       reduce using rule 58 (expresion -> exp .)
+    SUMA            shift and go to state 105
+    RESTA           shift and go to state 106
 
 
 state 78
 
-    (60) exp -> termino .
-    (61) termino -> termino . MULTIPLICACION factor
-    (62) termino -> termino . DIVISION factor
+    (67) signo_opc -> SUMA .
 
-    MAYORQUE        reduce using rule 60 (exp -> termino .)
-    MENORQUE        reduce using rule 60 (exp -> termino .)
-    DIFERENTE       reduce using rule 60 (exp -> termino .)
-    IGUALIGUAL      reduce using rule 60 (exp -> termino .)
-    SUMA            reduce using rule 60 (exp -> termino .)
-    RESTA           reduce using rule 60 (exp -> termino .)
-    COMA            reduce using rule 60 (exp -> termino .)
-    PARENTDER       reduce using rule 60 (exp -> termino .)
-    PUNTOCOMA       reduce using rule 60 (exp -> termino .)
-    MULTIPLICACION  shift and go to state 106
-    DIVISION        shift and go to state 107
+    ID              reduce using rule 67 (signo_opc -> SUMA .)
+    CTE_ENT         reduce using rule 67 (signo_opc -> SUMA .)
+    CTE_FLOT        reduce using rule 67 (signo_opc -> SUMA .)
 
 
 state 79
 
-    (67) signo_opc -> RESTA .
+    (61) exp -> termino .
+    (62) termino -> termino . MULTIPLICACION factor
+    (63) termino -> termino . DIVISION factor
 
-    ID              reduce using rule 67 (signo_opc -> RESTA .)
-    CTE_ENT         reduce using rule 67 (signo_opc -> RESTA .)
-    CTE_FLOT        reduce using rule 67 (signo_opc -> RESTA .)
+    MAYORQUE        reduce using rule 61 (exp -> termino .)
+    MENORQUE        reduce using rule 61 (exp -> termino .)
+    DIFERENTE       reduce using rule 61 (exp -> termino .)
+    IGUALIGUAL      reduce using rule 61 (exp -> termino .)
+    SUMA            reduce using rule 61 (exp -> termino .)
+    RESTA           reduce using rule 61 (exp -> termino .)
+    COMA            reduce using rule 61 (exp -> termino .)
+    PARENTDER       reduce using rule 61 (exp -> termino .)
+    PUNTOCOMA       reduce using rule 61 (exp -> termino .)
+    MULTIPLICACION  shift and go to state 107
+    DIVISION        shift and go to state 108
 
 
 state 80
 
-    (63) termino -> factor .
+    (68) signo_opc -> RESTA .
 
-    MULTIPLICACION  reduce using rule 63 (termino -> factor .)
-    DIVISION        reduce using rule 63 (termino -> factor .)
-    MAYORQUE        reduce using rule 63 (termino -> factor .)
-    MENORQUE        reduce using rule 63 (termino -> factor .)
-    DIFERENTE       reduce using rule 63 (termino -> factor .)
-    IGUALIGUAL      reduce using rule 63 (termino -> factor .)
-    SUMA            reduce using rule 63 (termino -> factor .)
-    RESTA           reduce using rule 63 (termino -> factor .)
-    COMA            reduce using rule 63 (termino -> factor .)
-    PARENTDER       reduce using rule 63 (termino -> factor .)
-    PUNTOCOMA       reduce using rule 63 (termino -> factor .)
+    ID              reduce using rule 68 (signo_opc -> RESTA .)
+    CTE_ENT         reduce using rule 68 (signo_opc -> RESTA .)
+    CTE_FLOT        reduce using rule 68 (signo_opc -> RESTA .)
 
 
 state 81
 
-    (64) factor -> PARENTIZQ . expresion PARENTDER
-    (53) expresion -> . exp MAYORQUE exp
-    (54) expresion -> . exp MENORQUE exp
-    (55) expresion -> . exp DIFERENTE exp
-    (56) expresion -> . exp IGUALIGUAL exp
-    (57) expresion -> . exp
-    (58) exp -> . exp SUMA termino
-    (59) exp -> . exp RESTA termino
-    (60) exp -> . termino
-    (61) termino -> . termino MULTIPLICACION factor
-    (62) termino -> . termino DIVISION factor
-    (63) termino -> . factor
-    (64) factor -> . PARENTIZQ expresion PARENTDER
-    (65) factor -> . signo_opc operando
-    (66) signo_opc -> . SUMA
-    (67) signo_opc -> . RESTA
-    (68) signo_opc -> . empty
-    (73) empty -> .
+    (64) termino -> factor .
 
-    PARENTIZQ       shift and go to state 81
-    SUMA            shift and go to state 77
-    RESTA           shift and go to state 79
-    ID              reduce using rule 73 (empty -> .)
-    CTE_ENT         reduce using rule 73 (empty -> .)
-    CTE_FLOT        reduce using rule 73 (empty -> .)
+    MULTIPLICACION  reduce using rule 64 (termino -> factor .)
+    DIVISION        reduce using rule 64 (termino -> factor .)
+    MAYORQUE        reduce using rule 64 (termino -> factor .)
+    MENORQUE        reduce using rule 64 (termino -> factor .)
+    DIFERENTE       reduce using rule 64 (termino -> factor .)
+    IGUALIGUAL      reduce using rule 64 (termino -> factor .)
+    SUMA            reduce using rule 64 (termino -> factor .)
+    RESTA           reduce using rule 64 (termino -> factor .)
+    COMA            reduce using rule 64 (termino -> factor .)
+    PARENTDER       reduce using rule 64 (termino -> factor .)
+    PUNTOCOMA       reduce using rule 64 (termino -> factor .)
 
-    expresion                      shift and go to state 108
-    exp                            shift and go to state 76
-    termino                        shift and go to state 78
-    factor                         shift and go to state 80
-    signo_opc                      shift and go to state 82
-    empty                          shift and go to state 90
 
 state 82
 
-    (65) factor -> signo_opc . operando
-    (69) operando -> . cte
-    (70) operando -> . ID
-    (71) cte -> . CTE_ENT
-    (72) cte -> . CTE_FLOT
+    (65) factor -> PARENTIZQ . expresion PARENTDER
+    (54) expresion -> . exp MAYORQUE exp
+    (55) expresion -> . exp MENORQUE exp
+    (56) expresion -> . exp DIFERENTE exp
+    (57) expresion -> . exp IGUALIGUAL exp
+    (58) expresion -> . exp
+    (59) exp -> . exp SUMA termino
+    (60) exp -> . exp RESTA termino
+    (61) exp -> . termino
+    (62) termino -> . termino MULTIPLICACION factor
+    (63) termino -> . termino DIVISION factor
+    (64) termino -> . factor
+    (65) factor -> . PARENTIZQ expresion PARENTDER
+    (66) factor -> . signo_opc operando
+    (67) signo_opc -> . SUMA
+    (68) signo_opc -> . RESTA
+    (69) signo_opc -> . empty
+    (74) empty -> .
 
-    ID              shift and go to state 111
-    CTE_ENT         shift and go to state 112
-    CTE_FLOT        shift and go to state 113
+    PARENTIZQ       shift and go to state 82
+    SUMA            shift and go to state 78
+    RESTA           shift and go to state 80
+    ID              reduce using rule 74 (empty -> .)
+    CTE_ENT         reduce using rule 74 (empty -> .)
+    CTE_FLOT        reduce using rule 74 (empty -> .)
 
-    operando                       shift and go to state 109
-    cte                            shift and go to state 110
+    expresion                      shift and go to state 109
+    exp                            shift and go to state 77
+    termino                        shift and go to state 79
+    factor                         shift and go to state 81
+    signo_opc                      shift and go to state 83
+    empty                          shift and go to state 91
 
 state 83
 
-    (48) imprime -> ESCRIBE PARENTIZQ . item_imp items_p PARENTDER PUNTOCOMA
-    (49) item_imp -> . expresion
-    (50) item_imp -> . LETRERO
-    (53) expresion -> . exp MAYORQUE exp
-    (54) expresion -> . exp MENORQUE exp
-    (55) expresion -> . exp DIFERENTE exp
-    (56) expresion -> . exp IGUALIGUAL exp
-    (57) expresion -> . exp
-    (58) exp -> . exp SUMA termino
-    (59) exp -> . exp RESTA termino
-    (60) exp -> . termino
-    (61) termino -> . termino MULTIPLICACION factor
-    (62) termino -> . termino DIVISION factor
-    (63) termino -> . factor
-    (64) factor -> . PARENTIZQ expresion PARENTDER
-    (65) factor -> . signo_opc operando
-    (66) signo_opc -> . SUMA
-    (67) signo_opc -> . RESTA
-    (68) signo_opc -> . empty
-    (73) empty -> .
+    (66) factor -> signo_opc . operando
+    (70) operando -> . cte
+    (71) operando -> . ID
+    (72) cte -> . CTE_ENT
+    (73) cte -> . CTE_FLOT
 
-    LETRERO         shift and go to state 116
-    PARENTIZQ       shift and go to state 81
-    SUMA            shift and go to state 77
-    RESTA           shift and go to state 79
-    ID              reduce using rule 73 (empty -> .)
-    CTE_ENT         reduce using rule 73 (empty -> .)
-    CTE_FLOT        reduce using rule 73 (empty -> .)
+    ID              shift and go to state 112
+    CTE_ENT         shift and go to state 113
+    CTE_FLOT        shift and go to state 114
 
-    item_imp                       shift and go to state 114
-    expresion                      shift and go to state 115
-    exp                            shift and go to state 76
-    termino                        shift and go to state 78
-    factor                         shift and go to state 80
-    signo_opc                      shift and go to state 82
-    empty                          shift and go to state 90
+    operando                       shift and go to state 110
+    cte                            shift and go to state 111
 
 state 84
 
-    (33) condicion_inicio -> SI PARENTIZQ . expresion PARENTDER
-    (53) expresion -> . exp MAYORQUE exp
-    (54) expresion -> . exp MENORQUE exp
-    (55) expresion -> . exp DIFERENTE exp
-    (56) expresion -> . exp IGUALIGUAL exp
-    (57) expresion -> . exp
-    (58) exp -> . exp SUMA termino
-    (59) exp -> . exp RESTA termino
-    (60) exp -> . termino
-    (61) termino -> . termino MULTIPLICACION factor
-    (62) termino -> . termino DIVISION factor
-    (63) termino -> . factor
-    (64) factor -> . PARENTIZQ expresion PARENTDER
-    (65) factor -> . signo_opc operando
-    (66) signo_opc -> . SUMA
-    (67) signo_opc -> . RESTA
-    (68) signo_opc -> . empty
-    (73) empty -> .
+    (49) imprime -> ESCRIBE PARENTIZQ . item_imp items_p PARENTDER PUNTOCOMA
+    (50) item_imp -> . expresion
+    (51) item_imp -> . LETRERO
+    (54) expresion -> . exp MAYORQUE exp
+    (55) expresion -> . exp MENORQUE exp
+    (56) expresion -> . exp DIFERENTE exp
+    (57) expresion -> . exp IGUALIGUAL exp
+    (58) expresion -> . exp
+    (59) exp -> . exp SUMA termino
+    (60) exp -> . exp RESTA termino
+    (61) exp -> . termino
+    (62) termino -> . termino MULTIPLICACION factor
+    (63) termino -> . termino DIVISION factor
+    (64) termino -> . factor
+    (65) factor -> . PARENTIZQ expresion PARENTDER
+    (66) factor -> . signo_opc operando
+    (67) signo_opc -> . SUMA
+    (68) signo_opc -> . RESTA
+    (69) signo_opc -> . empty
+    (74) empty -> .
 
-    PARENTIZQ       shift and go to state 81
-    SUMA            shift and go to state 77
-    RESTA           shift and go to state 79
-    ID              reduce using rule 73 (empty -> .)
-    CTE_ENT         reduce using rule 73 (empty -> .)
-    CTE_FLOT        reduce using rule 73 (empty -> .)
+    LETRERO         shift and go to state 117
+    PARENTIZQ       shift and go to state 82
+    SUMA            shift and go to state 78
+    RESTA           shift and go to state 80
+    ID              reduce using rule 74 (empty -> .)
+    CTE_ENT         reduce using rule 74 (empty -> .)
+    CTE_FLOT        reduce using rule 74 (empty -> .)
 
-    expresion                      shift and go to state 117
-    exp                            shift and go to state 76
-    termino                        shift and go to state 78
-    factor                         shift and go to state 80
-    signo_opc                      shift and go to state 82
-    empty                          shift and go to state 90
+    item_imp                       shift and go to state 115
+    expresion                      shift and go to state 116
+    exp                            shift and go to state 77
+    termino                        shift and go to state 79
+    factor                         shift and go to state 81
+    signo_opc                      shift and go to state 83
+    empty                          shift and go to state 91
 
 state 85
 
-    (39) ciclo_cond -> ciclo_inicio PARENTIZQ . expresion PARENTDER
-    (53) expresion -> . exp MAYORQUE exp
-    (54) expresion -> . exp MENORQUE exp
-    (55) expresion -> . exp DIFERENTE exp
-    (56) expresion -> . exp IGUALIGUAL exp
-    (57) expresion -> . exp
-    (58) exp -> . exp SUMA termino
-    (59) exp -> . exp RESTA termino
-    (60) exp -> . termino
-    (61) termino -> . termino MULTIPLICACION factor
-    (62) termino -> . termino DIVISION factor
-    (63) termino -> . factor
-    (64) factor -> . PARENTIZQ expresion PARENTDER
-    (65) factor -> . signo_opc operando
-    (66) signo_opc -> . SUMA
-    (67) signo_opc -> . RESTA
-    (68) signo_opc -> . empty
-    (73) empty -> .
+    (34) condicion_inicio -> SI PARENTIZQ . expresion PARENTDER
+    (54) expresion -> . exp MAYORQUE exp
+    (55) expresion -> . exp MENORQUE exp
+    (56) expresion -> . exp DIFERENTE exp
+    (57) expresion -> . exp IGUALIGUAL exp
+    (58) expresion -> . exp
+    (59) exp -> . exp SUMA termino
+    (60) exp -> . exp RESTA termino
+    (61) exp -> . termino
+    (62) termino -> . termino MULTIPLICACION factor
+    (63) termino -> . termino DIVISION factor
+    (64) termino -> . factor
+    (65) factor -> . PARENTIZQ expresion PARENTDER
+    (66) factor -> . signo_opc operando
+    (67) signo_opc -> . SUMA
+    (68) signo_opc -> . RESTA
+    (69) signo_opc -> . empty
+    (74) empty -> .
 
-    PARENTIZQ       shift and go to state 81
-    SUMA            shift and go to state 77
-    RESTA           shift and go to state 79
-    ID              reduce using rule 73 (empty -> .)
-    CTE_ENT         reduce using rule 73 (empty -> .)
-    CTE_FLOT        reduce using rule 73 (empty -> .)
+    PARENTIZQ       shift and go to state 82
+    SUMA            shift and go to state 78
+    RESTA           shift and go to state 80
+    ID              reduce using rule 74 (empty -> .)
+    CTE_ENT         reduce using rule 74 (empty -> .)
+    CTE_FLOT        reduce using rule 74 (empty -> .)
 
     expresion                      shift and go to state 118
-    exp                            shift and go to state 76
-    termino                        shift and go to state 78
-    factor                         shift and go to state 80
-    signo_opc                      shift and go to state 82
-    empty                          shift and go to state 90
+    exp                            shift and go to state 77
+    termino                        shift and go to state 79
+    factor                         shift and go to state 81
+    signo_opc                      shift and go to state 83
+    empty                          shift and go to state 91
 
 state 86
 
-    (20) func -> func_inicio params_opc PARENTDER vars_opc cuerpo . PUNTOCOMA
+    (40) ciclo_cond -> ciclo_inicio PARENTIZQ . expresion PARENTDER
+    (54) expresion -> . exp MAYORQUE exp
+    (55) expresion -> . exp MENORQUE exp
+    (56) expresion -> . exp DIFERENTE exp
+    (57) expresion -> . exp IGUALIGUAL exp
+    (58) expresion -> . exp
+    (59) exp -> . exp SUMA termino
+    (60) exp -> . exp RESTA termino
+    (61) exp -> . termino
+    (62) termino -> . termino MULTIPLICACION factor
+    (63) termino -> . termino DIVISION factor
+    (64) termino -> . factor
+    (65) factor -> . PARENTIZQ expresion PARENTDER
+    (66) factor -> . signo_opc operando
+    (67) signo_opc -> . SUMA
+    (68) signo_opc -> . RESTA
+    (69) signo_opc -> . empty
+    (74) empty -> .
 
-    PUNTOCOMA       shift and go to state 119
+    PARENTIZQ       shift and go to state 82
+    SUMA            shift and go to state 78
+    RESTA           shift and go to state 80
+    ID              reduce using rule 74 (empty -> .)
+    CTE_ENT         reduce using rule 74 (empty -> .)
+    CTE_FLOT        reduce using rule 74 (empty -> .)
 
+    expresion                      shift and go to state 119
+    exp                            shift and go to state 77
+    termino                        shift and go to state 79
+    factor                         shift and go to state 81
+    signo_opc                      shift and go to state 83
+    empty                          shift and go to state 91
 
 state 87
 
-    (22) params_p -> COMA tipo . ID params_p
+    (21) func -> func_inicio params_opc PARENTDER vars_opc cuerpo . PUNTOCOMA
 
-    ID              shift and go to state 120
+    PUNTOCOMA       shift and go to state 120
 
 
 state 88
 
-    (10) decl -> ID lista_ids DOSPUNTOS tipo PUNTOCOMA .
+    (23) params_p -> COMA tipo . ID params_p
 
-    ID              reduce using rule 10 (decl -> ID lista_ids DOSPUNTOS tipo PUNTOCOMA .)
-    NULA            reduce using rule 10 (decl -> ID lista_ids DOSPUNTOS tipo PUNTOCOMA .)
-    INICIO          reduce using rule 10 (decl -> ID lista_ids DOSPUNTOS tipo PUNTOCOMA .)
-    LLAVEIZQ        reduce using rule 10 (decl -> ID lista_ids DOSPUNTOS tipo PUNTOCOMA .)
+    ID              shift and go to state 121
 
 
 state 89
 
-    (32) asigna -> ID ASIGNACION expresion . PUNTOCOMA
+    (11) decl -> ID lista_ids DOSPUNTOS tipo PUNTOCOMA .
 
-    PUNTOCOMA       shift and go to state 121
+    ID              reduce using rule 11 (decl -> ID lista_ids DOSPUNTOS tipo PUNTOCOMA .)
+    NULA            reduce using rule 11 (decl -> ID lista_ids DOSPUNTOS tipo PUNTOCOMA .)
+    INICIO          reduce using rule 11 (decl -> ID lista_ids DOSPUNTOS tipo PUNTOCOMA .)
+    LLAVEIZQ        reduce using rule 11 (decl -> ID lista_ids DOSPUNTOS tipo PUNTOCOMA .)
 
 
 state 90
 
-    (68) signo_opc -> empty .
-
-    ID              reduce using rule 68 (signo_opc -> empty .)
-    CTE_ENT         reduce using rule 68 (signo_opc -> empty .)
-    CTE_FLOT        reduce using rule 68 (signo_opc -> empty .)
-
-
-state 91
-
-    (34) condicion -> condicion_inicio cuerpo sino_opc . PUNTOCOMA
+    (33) asigna -> ID ASIGNACION expresion . PUNTOCOMA
 
     PUNTOCOMA       shift and go to state 122
 
 
+state 91
+
+    (69) signo_opc -> empty .
+
+    ID              reduce using rule 69 (signo_opc -> empty .)
+    CTE_ENT         reduce using rule 69 (signo_opc -> empty .)
+    CTE_FLOT        reduce using rule 69 (signo_opc -> empty .)
+
+
 state 92
 
-    (35) sino_opc -> sino_inicio . cuerpo
-    (24) cuerpo -> . LLAVEIZQ estatutos LLAVEDER
+    (35) condicion -> condicion_inicio cuerpo sino_opc . PUNTOCOMA
 
-    LLAVEIZQ        shift and go to state 35
+    PUNTOCOMA       shift and go to state 123
 
-    cuerpo                         shift and go to state 123
 
 state 93
 
-    (37) sino_opc -> empty .
+    (36) sino_opc -> sino_inicio . cuerpo
+    (25) cuerpo -> . LLAVEIZQ estatutos LLAVEDER
 
-    PUNTOCOMA       reduce using rule 37 (sino_opc -> empty .)
+    LLAVEIZQ        shift and go to state 36
 
+    cuerpo                         shift and go to state 124
 
 state 94
 
-    (36) sino_inicio -> SINO .
+    (38) sino_opc -> empty .
 
-    LLAVEIZQ        reduce using rule 36 (sino_inicio -> SINO .)
+    PUNTOCOMA       reduce using rule 38 (sino_opc -> empty .)
 
 
 state 95
 
-    (40) ciclo -> ciclo_cond HAZ cuerpo . PUNTOCOMA
+    (37) sino_inicio -> SINO .
 
-    PUNTOCOMA       shift and go to state 124
+    LLAVEIZQ        reduce using rule 37 (sino_inicio -> SINO .)
 
 
 state 96
 
-    (42) llamada -> llamada_inicio args_opc PARENTDER . PUNTOCOMA
+    (41) ciclo -> ciclo_cond HAZ cuerpo . PUNTOCOMA
 
     PUNTOCOMA       shift and go to state 125
 
 
 state 97
 
+    (43) llamada -> llamada_inicio args_opc PARENTDER . PUNTOCOMA
+
+    PUNTOCOMA       shift and go to state 126
+
+
+state 98
+
     (44) args_opc -> arg args_p .
 
     PARENTDER       reduce using rule 44 (args_opc -> arg args_p .)
 
 
-state 98
-
-    (46) args_p -> COMA . expresion args_p
-    (53) expresion -> . exp MAYORQUE exp
-    (54) expresion -> . exp MENORQUE exp
-    (55) expresion -> . exp DIFERENTE exp
-    (56) expresion -> . exp IGUALIGUAL exp
-    (57) expresion -> . exp
-    (58) exp -> . exp SUMA termino
-    (59) exp -> . exp RESTA termino
-    (60) exp -> . termino
-    (61) termino -> . termino MULTIPLICACION factor
-    (62) termino -> . termino DIVISION factor
-    (63) termino -> . factor
-    (64) factor -> . PARENTIZQ expresion PARENTDER
-    (65) factor -> . signo_opc operando
-    (66) signo_opc -> . SUMA
-    (67) signo_opc -> . RESTA
-    (68) signo_opc -> . empty
-    (73) empty -> .
-
-    PARENTIZQ       shift and go to state 81
-    SUMA            shift and go to state 77
-    RESTA           shift and go to state 79
-    ID              reduce using rule 73 (empty -> .)
-    CTE_ENT         reduce using rule 73 (empty -> .)
-    CTE_FLOT        reduce using rule 73 (empty -> .)
-
-    expresion                      shift and go to state 126
-    exp                            shift and go to state 76
-    termino                        shift and go to state 78
-    factor                         shift and go to state 80
-    signo_opc                      shift and go to state 82
-    empty                          shift and go to state 90
-
 state 99
 
-    (47) args_p -> empty .
+    (47) args_p -> COMA . arg args_p
+    (46) arg -> . expresion
+    (54) expresion -> . exp MAYORQUE exp
+    (55) expresion -> . exp MENORQUE exp
+    (56) expresion -> . exp DIFERENTE exp
+    (57) expresion -> . exp IGUALIGUAL exp
+    (58) expresion -> . exp
+    (59) exp -> . exp SUMA termino
+    (60) exp -> . exp RESTA termino
+    (61) exp -> . termino
+    (62) termino -> . termino MULTIPLICACION factor
+    (63) termino -> . termino DIVISION factor
+    (64) termino -> . factor
+    (65) factor -> . PARENTIZQ expresion PARENTDER
+    (66) factor -> . signo_opc operando
+    (67) signo_opc -> . SUMA
+    (68) signo_opc -> . RESTA
+    (69) signo_opc -> . empty
+    (74) empty -> .
 
-    PARENTDER       reduce using rule 47 (args_p -> empty .)
+    PARENTIZQ       shift and go to state 82
+    SUMA            shift and go to state 78
+    RESTA           shift and go to state 80
+    ID              reduce using rule 74 (empty -> .)
+    CTE_ENT         reduce using rule 74 (empty -> .)
+    CTE_FLOT        reduce using rule 74 (empty -> .)
 
+    arg                            shift and go to state 127
+    expresion                      shift and go to state 76
+    exp                            shift and go to state 77
+    termino                        shift and go to state 79
+    factor                         shift and go to state 81
+    signo_opc                      shift and go to state 83
+    empty                          shift and go to state 91
 
 state 100
 
-    (53) expresion -> exp MAYORQUE . exp
-    (58) exp -> . exp SUMA termino
-    (59) exp -> . exp RESTA termino
-    (60) exp -> . termino
-    (61) termino -> . termino MULTIPLICACION factor
-    (62) termino -> . termino DIVISION factor
-    (63) termino -> . factor
-    (64) factor -> . PARENTIZQ expresion PARENTDER
-    (65) factor -> . signo_opc operando
-    (66) signo_opc -> . SUMA
-    (67) signo_opc -> . RESTA
-    (68) signo_opc -> . empty
-    (73) empty -> .
+    (48) args_p -> empty .
 
-    PARENTIZQ       shift and go to state 81
-    SUMA            shift and go to state 77
-    RESTA           shift and go to state 79
-    ID              reduce using rule 73 (empty -> .)
-    CTE_ENT         reduce using rule 73 (empty -> .)
-    CTE_FLOT        reduce using rule 73 (empty -> .)
+    PARENTDER       reduce using rule 48 (args_p -> empty .)
 
-    exp                            shift and go to state 127
-    termino                        shift and go to state 78
-    factor                         shift and go to state 80
-    signo_opc                      shift and go to state 82
-    empty                          shift and go to state 90
 
 state 101
 
-    (54) expresion -> exp MENORQUE . exp
-    (58) exp -> . exp SUMA termino
-    (59) exp -> . exp RESTA termino
-    (60) exp -> . termino
-    (61) termino -> . termino MULTIPLICACION factor
-    (62) termino -> . termino DIVISION factor
-    (63) termino -> . factor
-    (64) factor -> . PARENTIZQ expresion PARENTDER
-    (65) factor -> . signo_opc operando
-    (66) signo_opc -> . SUMA
-    (67) signo_opc -> . RESTA
-    (68) signo_opc -> . empty
-    (73) empty -> .
+    (54) expresion -> exp MAYORQUE . exp
+    (59) exp -> . exp SUMA termino
+    (60) exp -> . exp RESTA termino
+    (61) exp -> . termino
+    (62) termino -> . termino MULTIPLICACION factor
+    (63) termino -> . termino DIVISION factor
+    (64) termino -> . factor
+    (65) factor -> . PARENTIZQ expresion PARENTDER
+    (66) factor -> . signo_opc operando
+    (67) signo_opc -> . SUMA
+    (68) signo_opc -> . RESTA
+    (69) signo_opc -> . empty
+    (74) empty -> .
 
-    PARENTIZQ       shift and go to state 81
-    SUMA            shift and go to state 77
-    RESTA           shift and go to state 79
-    ID              reduce using rule 73 (empty -> .)
-    CTE_ENT         reduce using rule 73 (empty -> .)
-    CTE_FLOT        reduce using rule 73 (empty -> .)
+    PARENTIZQ       shift and go to state 82
+    SUMA            shift and go to state 78
+    RESTA           shift and go to state 80
+    ID              reduce using rule 74 (empty -> .)
+    CTE_ENT         reduce using rule 74 (empty -> .)
+    CTE_FLOT        reduce using rule 74 (empty -> .)
 
     exp                            shift and go to state 128
-    termino                        shift and go to state 78
-    factor                         shift and go to state 80
-    signo_opc                      shift and go to state 82
-    empty                          shift and go to state 90
+    termino                        shift and go to state 79
+    factor                         shift and go to state 81
+    signo_opc                      shift and go to state 83
+    empty                          shift and go to state 91
 
 state 102
 
-    (55) expresion -> exp DIFERENTE . exp
-    (58) exp -> . exp SUMA termino
-    (59) exp -> . exp RESTA termino
-    (60) exp -> . termino
-    (61) termino -> . termino MULTIPLICACION factor
-    (62) termino -> . termino DIVISION factor
-    (63) termino -> . factor
-    (64) factor -> . PARENTIZQ expresion PARENTDER
-    (65) factor -> . signo_opc operando
-    (66) signo_opc -> . SUMA
-    (67) signo_opc -> . RESTA
-    (68) signo_opc -> . empty
-    (73) empty -> .
+    (55) expresion -> exp MENORQUE . exp
+    (59) exp -> . exp SUMA termino
+    (60) exp -> . exp RESTA termino
+    (61) exp -> . termino
+    (62) termino -> . termino MULTIPLICACION factor
+    (63) termino -> . termino DIVISION factor
+    (64) termino -> . factor
+    (65) factor -> . PARENTIZQ expresion PARENTDER
+    (66) factor -> . signo_opc operando
+    (67) signo_opc -> . SUMA
+    (68) signo_opc -> . RESTA
+    (69) signo_opc -> . empty
+    (74) empty -> .
 
-    PARENTIZQ       shift and go to state 81
-    SUMA            shift and go to state 77
-    RESTA           shift and go to state 79
-    ID              reduce using rule 73 (empty -> .)
-    CTE_ENT         reduce using rule 73 (empty -> .)
-    CTE_FLOT        reduce using rule 73 (empty -> .)
+    PARENTIZQ       shift and go to state 82
+    SUMA            shift and go to state 78
+    RESTA           shift and go to state 80
+    ID              reduce using rule 74 (empty -> .)
+    CTE_ENT         reduce using rule 74 (empty -> .)
+    CTE_FLOT        reduce using rule 74 (empty -> .)
 
     exp                            shift and go to state 129
-    termino                        shift and go to state 78
-    factor                         shift and go to state 80
-    signo_opc                      shift and go to state 82
-    empty                          shift and go to state 90
+    termino                        shift and go to state 79
+    factor                         shift and go to state 81
+    signo_opc                      shift and go to state 83
+    empty                          shift and go to state 91
 
 state 103
 
-    (56) expresion -> exp IGUALIGUAL . exp
-    (58) exp -> . exp SUMA termino
-    (59) exp -> . exp RESTA termino
-    (60) exp -> . termino
-    (61) termino -> . termino MULTIPLICACION factor
-    (62) termino -> . termino DIVISION factor
-    (63) termino -> . factor
-    (64) factor -> . PARENTIZQ expresion PARENTDER
-    (65) factor -> . signo_opc operando
-    (66) signo_opc -> . SUMA
-    (67) signo_opc -> . RESTA
-    (68) signo_opc -> . empty
-    (73) empty -> .
+    (56) expresion -> exp DIFERENTE . exp
+    (59) exp -> . exp SUMA termino
+    (60) exp -> . exp RESTA termino
+    (61) exp -> . termino
+    (62) termino -> . termino MULTIPLICACION factor
+    (63) termino -> . termino DIVISION factor
+    (64) termino -> . factor
+    (65) factor -> . PARENTIZQ expresion PARENTDER
+    (66) factor -> . signo_opc operando
+    (67) signo_opc -> . SUMA
+    (68) signo_opc -> . RESTA
+    (69) signo_opc -> . empty
+    (74) empty -> .
 
-    PARENTIZQ       shift and go to state 81
-    SUMA            shift and go to state 77
-    RESTA           shift and go to state 79
-    ID              reduce using rule 73 (empty -> .)
-    CTE_ENT         reduce using rule 73 (empty -> .)
-    CTE_FLOT        reduce using rule 73 (empty -> .)
+    PARENTIZQ       shift and go to state 82
+    SUMA            shift and go to state 78
+    RESTA           shift and go to state 80
+    ID              reduce using rule 74 (empty -> .)
+    CTE_ENT         reduce using rule 74 (empty -> .)
+    CTE_FLOT        reduce using rule 74 (empty -> .)
 
     exp                            shift and go to state 130
-    termino                        shift and go to state 78
-    factor                         shift and go to state 80
-    signo_opc                      shift and go to state 82
-    empty                          shift and go to state 90
+    termino                        shift and go to state 79
+    factor                         shift and go to state 81
+    signo_opc                      shift and go to state 83
+    empty                          shift and go to state 91
 
 state 104
 
-    (58) exp -> exp SUMA . termino
-    (61) termino -> . termino MULTIPLICACION factor
-    (62) termino -> . termino DIVISION factor
-    (63) termino -> . factor
-    (64) factor -> . PARENTIZQ expresion PARENTDER
-    (65) factor -> . signo_opc operando
-    (66) signo_opc -> . SUMA
-    (67) signo_opc -> . RESTA
-    (68) signo_opc -> . empty
-    (73) empty -> .
+    (57) expresion -> exp IGUALIGUAL . exp
+    (59) exp -> . exp SUMA termino
+    (60) exp -> . exp RESTA termino
+    (61) exp -> . termino
+    (62) termino -> . termino MULTIPLICACION factor
+    (63) termino -> . termino DIVISION factor
+    (64) termino -> . factor
+    (65) factor -> . PARENTIZQ expresion PARENTDER
+    (66) factor -> . signo_opc operando
+    (67) signo_opc -> . SUMA
+    (68) signo_opc -> . RESTA
+    (69) signo_opc -> . empty
+    (74) empty -> .
 
-    PARENTIZQ       shift and go to state 81
-    SUMA            shift and go to state 77
-    RESTA           shift and go to state 79
-    ID              reduce using rule 73 (empty -> .)
-    CTE_ENT         reduce using rule 73 (empty -> .)
-    CTE_FLOT        reduce using rule 73 (empty -> .)
+    PARENTIZQ       shift and go to state 82
+    SUMA            shift and go to state 78
+    RESTA           shift and go to state 80
+    ID              reduce using rule 74 (empty -> .)
+    CTE_ENT         reduce using rule 74 (empty -> .)
+    CTE_FLOT        reduce using rule 74 (empty -> .)
 
-    termino                        shift and go to state 131
-    factor                         shift and go to state 80
-    signo_opc                      shift and go to state 82
-    empty                          shift and go to state 90
+    exp                            shift and go to state 131
+    termino                        shift and go to state 79
+    factor                         shift and go to state 81
+    signo_opc                      shift and go to state 83
+    empty                          shift and go to state 91
 
 state 105
 
-    (59) exp -> exp RESTA . termino
-    (61) termino -> . termino MULTIPLICACION factor
-    (62) termino -> . termino DIVISION factor
-    (63) termino -> . factor
-    (64) factor -> . PARENTIZQ expresion PARENTDER
-    (65) factor -> . signo_opc operando
-    (66) signo_opc -> . SUMA
-    (67) signo_opc -> . RESTA
-    (68) signo_opc -> . empty
-    (73) empty -> .
+    (59) exp -> exp SUMA . termino
+    (62) termino -> . termino MULTIPLICACION factor
+    (63) termino -> . termino DIVISION factor
+    (64) termino -> . factor
+    (65) factor -> . PARENTIZQ expresion PARENTDER
+    (66) factor -> . signo_opc operando
+    (67) signo_opc -> . SUMA
+    (68) signo_opc -> . RESTA
+    (69) signo_opc -> . empty
+    (74) empty -> .
 
-    PARENTIZQ       shift and go to state 81
-    SUMA            shift and go to state 77
-    RESTA           shift and go to state 79
-    ID              reduce using rule 73 (empty -> .)
-    CTE_ENT         reduce using rule 73 (empty -> .)
-    CTE_FLOT        reduce using rule 73 (empty -> .)
+    PARENTIZQ       shift and go to state 82
+    SUMA            shift and go to state 78
+    RESTA           shift and go to state 80
+    ID              reduce using rule 74 (empty -> .)
+    CTE_ENT         reduce using rule 74 (empty -> .)
+    CTE_FLOT        reduce using rule 74 (empty -> .)
 
     termino                        shift and go to state 132
-    factor                         shift and go to state 80
-    signo_opc                      shift and go to state 82
-    empty                          shift and go to state 90
+    factor                         shift and go to state 81
+    signo_opc                      shift and go to state 83
+    empty                          shift and go to state 91
 
 state 106
 
-    (61) termino -> termino MULTIPLICACION . factor
-    (64) factor -> . PARENTIZQ expresion PARENTDER
-    (65) factor -> . signo_opc operando
-    (66) signo_opc -> . SUMA
-    (67) signo_opc -> . RESTA
-    (68) signo_opc -> . empty
-    (73) empty -> .
+    (60) exp -> exp RESTA . termino
+    (62) termino -> . termino MULTIPLICACION factor
+    (63) termino -> . termino DIVISION factor
+    (64) termino -> . factor
+    (65) factor -> . PARENTIZQ expresion PARENTDER
+    (66) factor -> . signo_opc operando
+    (67) signo_opc -> . SUMA
+    (68) signo_opc -> . RESTA
+    (69) signo_opc -> . empty
+    (74) empty -> .
 
-    PARENTIZQ       shift and go to state 81
-    SUMA            shift and go to state 77
-    RESTA           shift and go to state 79
-    ID              reduce using rule 73 (empty -> .)
-    CTE_ENT         reduce using rule 73 (empty -> .)
-    CTE_FLOT        reduce using rule 73 (empty -> .)
+    PARENTIZQ       shift and go to state 82
+    SUMA            shift and go to state 78
+    RESTA           shift and go to state 80
+    ID              reduce using rule 74 (empty -> .)
+    CTE_ENT         reduce using rule 74 (empty -> .)
+    CTE_FLOT        reduce using rule 74 (empty -> .)
 
-    factor                         shift and go to state 133
-    signo_opc                      shift and go to state 82
-    empty                          shift and go to state 90
+    termino                        shift and go to state 133
+    factor                         shift and go to state 81
+    signo_opc                      shift and go to state 83
+    empty                          shift and go to state 91
 
 state 107
 
-    (62) termino -> termino DIVISION . factor
-    (64) factor -> . PARENTIZQ expresion PARENTDER
-    (65) factor -> . signo_opc operando
-    (66) signo_opc -> . SUMA
-    (67) signo_opc -> . RESTA
-    (68) signo_opc -> . empty
-    (73) empty -> .
+    (62) termino -> termino MULTIPLICACION . factor
+    (65) factor -> . PARENTIZQ expresion PARENTDER
+    (66) factor -> . signo_opc operando
+    (67) signo_opc -> . SUMA
+    (68) signo_opc -> . RESTA
+    (69) signo_opc -> . empty
+    (74) empty -> .
 
-    PARENTIZQ       shift and go to state 81
-    SUMA            shift and go to state 77
-    RESTA           shift and go to state 79
-    ID              reduce using rule 73 (empty -> .)
-    CTE_ENT         reduce using rule 73 (empty -> .)
-    CTE_FLOT        reduce using rule 73 (empty -> .)
+    PARENTIZQ       shift and go to state 82
+    SUMA            shift and go to state 78
+    RESTA           shift and go to state 80
+    ID              reduce using rule 74 (empty -> .)
+    CTE_ENT         reduce using rule 74 (empty -> .)
+    CTE_FLOT        reduce using rule 74 (empty -> .)
 
     factor                         shift and go to state 134
-    signo_opc                      shift and go to state 82
-    empty                          shift and go to state 90
+    signo_opc                      shift and go to state 83
+    empty                          shift and go to state 91
 
 state 108
 
-    (64) factor -> PARENTIZQ expresion . PARENTDER
+    (63) termino -> termino DIVISION . factor
+    (65) factor -> . PARENTIZQ expresion PARENTDER
+    (66) factor -> . signo_opc operando
+    (67) signo_opc -> . SUMA
+    (68) signo_opc -> . RESTA
+    (69) signo_opc -> . empty
+    (74) empty -> .
 
-    PARENTDER       shift and go to state 135
+    PARENTIZQ       shift and go to state 82
+    SUMA            shift and go to state 78
+    RESTA           shift and go to state 80
+    ID              reduce using rule 74 (empty -> .)
+    CTE_ENT         reduce using rule 74 (empty -> .)
+    CTE_FLOT        reduce using rule 74 (empty -> .)
 
+    factor                         shift and go to state 135
+    signo_opc                      shift and go to state 83
+    empty                          shift and go to state 91
 
 state 109
 
-    (65) factor -> signo_opc operando .
+    (65) factor -> PARENTIZQ expresion . PARENTDER
 
-    MULTIPLICACION  reduce using rule 65 (factor -> signo_opc operando .)
-    DIVISION        reduce using rule 65 (factor -> signo_opc operando .)
-    MAYORQUE        reduce using rule 65 (factor -> signo_opc operando .)
-    MENORQUE        reduce using rule 65 (factor -> signo_opc operando .)
-    DIFERENTE       reduce using rule 65 (factor -> signo_opc operando .)
-    IGUALIGUAL      reduce using rule 65 (factor -> signo_opc operando .)
-    SUMA            reduce using rule 65 (factor -> signo_opc operando .)
-    RESTA           reduce using rule 65 (factor -> signo_opc operando .)
-    COMA            reduce using rule 65 (factor -> signo_opc operando .)
-    PARENTDER       reduce using rule 65 (factor -> signo_opc operando .)
-    PUNTOCOMA       reduce using rule 65 (factor -> signo_opc operando .)
+    PARENTDER       shift and go to state 136
 
 
 state 110
 
-    (69) operando -> cte .
+    (66) factor -> signo_opc operando .
 
-    MULTIPLICACION  reduce using rule 69 (operando -> cte .)
-    DIVISION        reduce using rule 69 (operando -> cte .)
-    MAYORQUE        reduce using rule 69 (operando -> cte .)
-    MENORQUE        reduce using rule 69 (operando -> cte .)
-    DIFERENTE       reduce using rule 69 (operando -> cte .)
-    IGUALIGUAL      reduce using rule 69 (operando -> cte .)
-    SUMA            reduce using rule 69 (operando -> cte .)
-    RESTA           reduce using rule 69 (operando -> cte .)
-    COMA            reduce using rule 69 (operando -> cte .)
-    PARENTDER       reduce using rule 69 (operando -> cte .)
-    PUNTOCOMA       reduce using rule 69 (operando -> cte .)
+    MULTIPLICACION  reduce using rule 66 (factor -> signo_opc operando .)
+    DIVISION        reduce using rule 66 (factor -> signo_opc operando .)
+    MAYORQUE        reduce using rule 66 (factor -> signo_opc operando .)
+    MENORQUE        reduce using rule 66 (factor -> signo_opc operando .)
+    DIFERENTE       reduce using rule 66 (factor -> signo_opc operando .)
+    IGUALIGUAL      reduce using rule 66 (factor -> signo_opc operando .)
+    SUMA            reduce using rule 66 (factor -> signo_opc operando .)
+    RESTA           reduce using rule 66 (factor -> signo_opc operando .)
+    COMA            reduce using rule 66 (factor -> signo_opc operando .)
+    PARENTDER       reduce using rule 66 (factor -> signo_opc operando .)
+    PUNTOCOMA       reduce using rule 66 (factor -> signo_opc operando .)
 
 
 state 111
 
-    (70) operando -> ID .
+    (70) operando -> cte .
 
-    MULTIPLICACION  reduce using rule 70 (operando -> ID .)
-    DIVISION        reduce using rule 70 (operando -> ID .)
-    MAYORQUE        reduce using rule 70 (operando -> ID .)
-    MENORQUE        reduce using rule 70 (operando -> ID .)
-    DIFERENTE       reduce using rule 70 (operando -> ID .)
-    IGUALIGUAL      reduce using rule 70 (operando -> ID .)
-    SUMA            reduce using rule 70 (operando -> ID .)
-    RESTA           reduce using rule 70 (operando -> ID .)
-    COMA            reduce using rule 70 (operando -> ID .)
-    PARENTDER       reduce using rule 70 (operando -> ID .)
-    PUNTOCOMA       reduce using rule 70 (operando -> ID .)
+    MULTIPLICACION  reduce using rule 70 (operando -> cte .)
+    DIVISION        reduce using rule 70 (operando -> cte .)
+    MAYORQUE        reduce using rule 70 (operando -> cte .)
+    MENORQUE        reduce using rule 70 (operando -> cte .)
+    DIFERENTE       reduce using rule 70 (operando -> cte .)
+    IGUALIGUAL      reduce using rule 70 (operando -> cte .)
+    SUMA            reduce using rule 70 (operando -> cte .)
+    RESTA           reduce using rule 70 (operando -> cte .)
+    COMA            reduce using rule 70 (operando -> cte .)
+    PARENTDER       reduce using rule 70 (operando -> cte .)
+    PUNTOCOMA       reduce using rule 70 (operando -> cte .)
 
 
 state 112
 
-    (71) cte -> CTE_ENT .
+    (71) operando -> ID .
 
-    MULTIPLICACION  reduce using rule 71 (cte -> CTE_ENT .)
-    DIVISION        reduce using rule 71 (cte -> CTE_ENT .)
-    MAYORQUE        reduce using rule 71 (cte -> CTE_ENT .)
-    MENORQUE        reduce using rule 71 (cte -> CTE_ENT .)
-    DIFERENTE       reduce using rule 71 (cte -> CTE_ENT .)
-    IGUALIGUAL      reduce using rule 71 (cte -> CTE_ENT .)
-    SUMA            reduce using rule 71 (cte -> CTE_ENT .)
-    RESTA           reduce using rule 71 (cte -> CTE_ENT .)
-    COMA            reduce using rule 71 (cte -> CTE_ENT .)
-    PARENTDER       reduce using rule 71 (cte -> CTE_ENT .)
-    PUNTOCOMA       reduce using rule 71 (cte -> CTE_ENT .)
+    MULTIPLICACION  reduce using rule 71 (operando -> ID .)
+    DIVISION        reduce using rule 71 (operando -> ID .)
+    MAYORQUE        reduce using rule 71 (operando -> ID .)
+    MENORQUE        reduce using rule 71 (operando -> ID .)
+    DIFERENTE       reduce using rule 71 (operando -> ID .)
+    IGUALIGUAL      reduce using rule 71 (operando -> ID .)
+    SUMA            reduce using rule 71 (operando -> ID .)
+    RESTA           reduce using rule 71 (operando -> ID .)
+    COMA            reduce using rule 71 (operando -> ID .)
+    PARENTDER       reduce using rule 71 (operando -> ID .)
+    PUNTOCOMA       reduce using rule 71 (operando -> ID .)
 
 
 state 113
 
-    (72) cte -> CTE_FLOT .
+    (72) cte -> CTE_ENT .
 
-    MULTIPLICACION  reduce using rule 72 (cte -> CTE_FLOT .)
-    DIVISION        reduce using rule 72 (cte -> CTE_FLOT .)
-    MAYORQUE        reduce using rule 72 (cte -> CTE_FLOT .)
-    MENORQUE        reduce using rule 72 (cte -> CTE_FLOT .)
-    DIFERENTE       reduce using rule 72 (cte -> CTE_FLOT .)
-    IGUALIGUAL      reduce using rule 72 (cte -> CTE_FLOT .)
-    SUMA            reduce using rule 72 (cte -> CTE_FLOT .)
-    RESTA           reduce using rule 72 (cte -> CTE_FLOT .)
-    COMA            reduce using rule 72 (cte -> CTE_FLOT .)
-    PARENTDER       reduce using rule 72 (cte -> CTE_FLOT .)
-    PUNTOCOMA       reduce using rule 72 (cte -> CTE_FLOT .)
+    MULTIPLICACION  reduce using rule 72 (cte -> CTE_ENT .)
+    DIVISION        reduce using rule 72 (cte -> CTE_ENT .)
+    MAYORQUE        reduce using rule 72 (cte -> CTE_ENT .)
+    MENORQUE        reduce using rule 72 (cte -> CTE_ENT .)
+    DIFERENTE       reduce using rule 72 (cte -> CTE_ENT .)
+    IGUALIGUAL      reduce using rule 72 (cte -> CTE_ENT .)
+    SUMA            reduce using rule 72 (cte -> CTE_ENT .)
+    RESTA           reduce using rule 72 (cte -> CTE_ENT .)
+    COMA            reduce using rule 72 (cte -> CTE_ENT .)
+    PARENTDER       reduce using rule 72 (cte -> CTE_ENT .)
+    PUNTOCOMA       reduce using rule 72 (cte -> CTE_ENT .)
 
 
 state 114
 
-    (48) imprime -> ESCRIBE PARENTIZQ item_imp . items_p PARENTDER PUNTOCOMA
-    (51) items_p -> . COMA item_imp items_p
-    (52) items_p -> . empty
-    (73) empty -> .
+    (73) cte -> CTE_FLOT .
 
-    COMA            shift and go to state 137
-    PARENTDER       reduce using rule 73 (empty -> .)
+    MULTIPLICACION  reduce using rule 73 (cte -> CTE_FLOT .)
+    DIVISION        reduce using rule 73 (cte -> CTE_FLOT .)
+    MAYORQUE        reduce using rule 73 (cte -> CTE_FLOT .)
+    MENORQUE        reduce using rule 73 (cte -> CTE_FLOT .)
+    DIFERENTE       reduce using rule 73 (cte -> CTE_FLOT .)
+    IGUALIGUAL      reduce using rule 73 (cte -> CTE_FLOT .)
+    SUMA            reduce using rule 73 (cte -> CTE_FLOT .)
+    RESTA           reduce using rule 73 (cte -> CTE_FLOT .)
+    COMA            reduce using rule 73 (cte -> CTE_FLOT .)
+    PARENTDER       reduce using rule 73 (cte -> CTE_FLOT .)
+    PUNTOCOMA       reduce using rule 73 (cte -> CTE_FLOT .)
 
-    items_p                        shift and go to state 136
-    empty                          shift and go to state 138
 
 state 115
 
-    (49) item_imp -> expresion .
+    (49) imprime -> ESCRIBE PARENTIZQ item_imp . items_p PARENTDER PUNTOCOMA
+    (52) items_p -> . COMA item_imp items_p
+    (53) items_p -> . empty
+    (74) empty -> .
 
-    COMA            reduce using rule 49 (item_imp -> expresion .)
-    PARENTDER       reduce using rule 49 (item_imp -> expresion .)
+    COMA            shift and go to state 138
+    PARENTDER       reduce using rule 74 (empty -> .)
 
+    items_p                        shift and go to state 137
+    empty                          shift and go to state 139
 
 state 116
 
-    (50) item_imp -> LETRERO .
+    (50) item_imp -> expresion .
 
-    COMA            reduce using rule 50 (item_imp -> LETRERO .)
-    PARENTDER       reduce using rule 50 (item_imp -> LETRERO .)
+    COMA            reduce using rule 50 (item_imp -> expresion .)
+    PARENTDER       reduce using rule 50 (item_imp -> expresion .)
 
 
 state 117
 
-    (33) condicion_inicio -> SI PARENTIZQ expresion . PARENTDER
+    (51) item_imp -> LETRERO .
 
-    PARENTDER       shift and go to state 139
+    COMA            reduce using rule 51 (item_imp -> LETRERO .)
+    PARENTDER       reduce using rule 51 (item_imp -> LETRERO .)
 
 
 state 118
 
-    (39) ciclo_cond -> ciclo_inicio PARENTIZQ expresion . PARENTDER
+    (34) condicion_inicio -> SI PARENTIZQ expresion . PARENTDER
 
     PARENTDER       shift and go to state 140
 
 
 state 119
 
-    (20) func -> func_inicio params_opc PARENTDER vars_opc cuerpo PUNTOCOMA .
+    (40) ciclo_cond -> ciclo_inicio PARENTIZQ expresion . PARENTDER
 
-    NULA            reduce using rule 20 (func -> func_inicio params_opc PARENTDER vars_opc cuerpo PUNTOCOMA .)
-    INICIO          reduce using rule 20 (func -> func_inicio params_opc PARENTDER vars_opc cuerpo PUNTOCOMA .)
+    PARENTDER       shift and go to state 141
 
 
 state 120
 
-    (22) params_p -> COMA tipo ID . params_p
-    (22) params_p -> . COMA tipo ID params_p
-    (23) params_p -> . empty
-    (73) empty -> .
+    (21) func -> func_inicio params_opc PARENTDER vars_opc cuerpo PUNTOCOMA .
 
-    COMA            shift and go to state 62
-    PARENTDER       reduce using rule 73 (empty -> .)
+    NULA            reduce using rule 21 (func -> func_inicio params_opc PARENTDER vars_opc cuerpo PUNTOCOMA .)
+    INICIO          reduce using rule 21 (func -> func_inicio params_opc PARENTDER vars_opc cuerpo PUNTOCOMA .)
 
-    params_p                       shift and go to state 141
-    empty                          shift and go to state 63
 
 state 121
 
-    (32) asigna -> ID ASIGNACION expresion PUNTOCOMA .
+    (23) params_p -> COMA tipo ID . params_p
+    (23) params_p -> . COMA tipo ID params_p
+    (24) params_p -> . empty
+    (74) empty -> .
 
-    ID              reduce using rule 32 (asigna -> ID ASIGNACION expresion PUNTOCOMA .)
-    ESCRIBE         reduce using rule 32 (asigna -> ID ASIGNACION expresion PUNTOCOMA .)
-    SI              reduce using rule 32 (asigna -> ID ASIGNACION expresion PUNTOCOMA .)
-    MIENTRAS        reduce using rule 32 (asigna -> ID ASIGNACION expresion PUNTOCOMA .)
-    LLAVEDER        reduce using rule 32 (asigna -> ID ASIGNACION expresion PUNTOCOMA .)
+    COMA            shift and go to state 63
+    PARENTDER       reduce using rule 74 (empty -> .)
 
+    params_p                       shift and go to state 142
+    empty                          shift and go to state 64
 
 state 122
 
-    (34) condicion -> condicion_inicio cuerpo sino_opc PUNTOCOMA .
+    (33) asigna -> ID ASIGNACION expresion PUNTOCOMA .
 
-    ID              reduce using rule 34 (condicion -> condicion_inicio cuerpo sino_opc PUNTOCOMA .)
-    ESCRIBE         reduce using rule 34 (condicion -> condicion_inicio cuerpo sino_opc PUNTOCOMA .)
-    SI              reduce using rule 34 (condicion -> condicion_inicio cuerpo sino_opc PUNTOCOMA .)
-    MIENTRAS        reduce using rule 34 (condicion -> condicion_inicio cuerpo sino_opc PUNTOCOMA .)
-    LLAVEDER        reduce using rule 34 (condicion -> condicion_inicio cuerpo sino_opc PUNTOCOMA .)
+    ID              reduce using rule 33 (asigna -> ID ASIGNACION expresion PUNTOCOMA .)
+    ESCRIBE         reduce using rule 33 (asigna -> ID ASIGNACION expresion PUNTOCOMA .)
+    SI              reduce using rule 33 (asigna -> ID ASIGNACION expresion PUNTOCOMA .)
+    MIENTRAS        reduce using rule 33 (asigna -> ID ASIGNACION expresion PUNTOCOMA .)
+    LLAVEDER        reduce using rule 33 (asigna -> ID ASIGNACION expresion PUNTOCOMA .)
 
 
 state 123
 
-    (35) sino_opc -> sino_inicio cuerpo .
+    (35) condicion -> condicion_inicio cuerpo sino_opc PUNTOCOMA .
 
-    PUNTOCOMA       reduce using rule 35 (sino_opc -> sino_inicio cuerpo .)
+    ID              reduce using rule 35 (condicion -> condicion_inicio cuerpo sino_opc PUNTOCOMA .)
+    ESCRIBE         reduce using rule 35 (condicion -> condicion_inicio cuerpo sino_opc PUNTOCOMA .)
+    SI              reduce using rule 35 (condicion -> condicion_inicio cuerpo sino_opc PUNTOCOMA .)
+    MIENTRAS        reduce using rule 35 (condicion -> condicion_inicio cuerpo sino_opc PUNTOCOMA .)
+    LLAVEDER        reduce using rule 35 (condicion -> condicion_inicio cuerpo sino_opc PUNTOCOMA .)
 
 
 state 124
 
-    (40) ciclo -> ciclo_cond HAZ cuerpo PUNTOCOMA .
+    (36) sino_opc -> sino_inicio cuerpo .
 
-    ID              reduce using rule 40 (ciclo -> ciclo_cond HAZ cuerpo PUNTOCOMA .)
-    ESCRIBE         reduce using rule 40 (ciclo -> ciclo_cond HAZ cuerpo PUNTOCOMA .)
-    SI              reduce using rule 40 (ciclo -> ciclo_cond HAZ cuerpo PUNTOCOMA .)
-    MIENTRAS        reduce using rule 40 (ciclo -> ciclo_cond HAZ cuerpo PUNTOCOMA .)
-    LLAVEDER        reduce using rule 40 (ciclo -> ciclo_cond HAZ cuerpo PUNTOCOMA .)
+    PUNTOCOMA       reduce using rule 36 (sino_opc -> sino_inicio cuerpo .)
 
 
 state 125
 
-    (42) llamada -> llamada_inicio args_opc PARENTDER PUNTOCOMA .
+    (41) ciclo -> ciclo_cond HAZ cuerpo PUNTOCOMA .
 
-    ID              reduce using rule 42 (llamada -> llamada_inicio args_opc PARENTDER PUNTOCOMA .)
-    ESCRIBE         reduce using rule 42 (llamada -> llamada_inicio args_opc PARENTDER PUNTOCOMA .)
-    SI              reduce using rule 42 (llamada -> llamada_inicio args_opc PARENTDER PUNTOCOMA .)
-    MIENTRAS        reduce using rule 42 (llamada -> llamada_inicio args_opc PARENTDER PUNTOCOMA .)
-    LLAVEDER        reduce using rule 42 (llamada -> llamada_inicio args_opc PARENTDER PUNTOCOMA .)
+    ID              reduce using rule 41 (ciclo -> ciclo_cond HAZ cuerpo PUNTOCOMA .)
+    ESCRIBE         reduce using rule 41 (ciclo -> ciclo_cond HAZ cuerpo PUNTOCOMA .)
+    SI              reduce using rule 41 (ciclo -> ciclo_cond HAZ cuerpo PUNTOCOMA .)
+    MIENTRAS        reduce using rule 41 (ciclo -> ciclo_cond HAZ cuerpo PUNTOCOMA .)
+    LLAVEDER        reduce using rule 41 (ciclo -> ciclo_cond HAZ cuerpo PUNTOCOMA .)
 
 
 state 126
 
-    (46) args_p -> COMA expresion . args_p
-    (46) args_p -> . COMA expresion args_p
-    (47) args_p -> . empty
-    (73) empty -> .
+    (43) llamada -> llamada_inicio args_opc PARENTDER PUNTOCOMA .
 
-    COMA            shift and go to state 98
-    PARENTDER       reduce using rule 73 (empty -> .)
+    ID              reduce using rule 43 (llamada -> llamada_inicio args_opc PARENTDER PUNTOCOMA .)
+    ESCRIBE         reduce using rule 43 (llamada -> llamada_inicio args_opc PARENTDER PUNTOCOMA .)
+    SI              reduce using rule 43 (llamada -> llamada_inicio args_opc PARENTDER PUNTOCOMA .)
+    MIENTRAS        reduce using rule 43 (llamada -> llamada_inicio args_opc PARENTDER PUNTOCOMA .)
+    LLAVEDER        reduce using rule 43 (llamada -> llamada_inicio args_opc PARENTDER PUNTOCOMA .)
 
-    args_p                         shift and go to state 142
-    empty                          shift and go to state 99
 
 state 127
 
-    (53) expresion -> exp MAYORQUE exp .
-    (58) exp -> exp . SUMA termino
-    (59) exp -> exp . RESTA termino
+    (47) args_p -> COMA arg . args_p
+    (47) args_p -> . COMA arg args_p
+    (48) args_p -> . empty
+    (74) empty -> .
 
-    COMA            reduce using rule 53 (expresion -> exp MAYORQUE exp .)
-    PARENTDER       reduce using rule 53 (expresion -> exp MAYORQUE exp .)
-    PUNTOCOMA       reduce using rule 53 (expresion -> exp MAYORQUE exp .)
-    SUMA            shift and go to state 104
-    RESTA           shift and go to state 105
+    COMA            shift and go to state 99
+    PARENTDER       reduce using rule 74 (empty -> .)
 
+    args_p                         shift and go to state 143
+    empty                          shift and go to state 100
 
 state 128
 
-    (54) expresion -> exp MENORQUE exp .
-    (58) exp -> exp . SUMA termino
-    (59) exp -> exp . RESTA termino
+    (54) expresion -> exp MAYORQUE exp .
+    (59) exp -> exp . SUMA termino
+    (60) exp -> exp . RESTA termino
 
-    COMA            reduce using rule 54 (expresion -> exp MENORQUE exp .)
-    PARENTDER       reduce using rule 54 (expresion -> exp MENORQUE exp .)
-    PUNTOCOMA       reduce using rule 54 (expresion -> exp MENORQUE exp .)
-    SUMA            shift and go to state 104
-    RESTA           shift and go to state 105
+    COMA            reduce using rule 54 (expresion -> exp MAYORQUE exp .)
+    PARENTDER       reduce using rule 54 (expresion -> exp MAYORQUE exp .)
+    PUNTOCOMA       reduce using rule 54 (expresion -> exp MAYORQUE exp .)
+    SUMA            shift and go to state 105
+    RESTA           shift and go to state 106
 
 
 state 129
 
-    (55) expresion -> exp DIFERENTE exp .
-    (58) exp -> exp . SUMA termino
-    (59) exp -> exp . RESTA termino
+    (55) expresion -> exp MENORQUE exp .
+    (59) exp -> exp . SUMA termino
+    (60) exp -> exp . RESTA termino
 
-    COMA            reduce using rule 55 (expresion -> exp DIFERENTE exp .)
-    PARENTDER       reduce using rule 55 (expresion -> exp DIFERENTE exp .)
-    PUNTOCOMA       reduce using rule 55 (expresion -> exp DIFERENTE exp .)
-    SUMA            shift and go to state 104
-    RESTA           shift and go to state 105
+    COMA            reduce using rule 55 (expresion -> exp MENORQUE exp .)
+    PARENTDER       reduce using rule 55 (expresion -> exp MENORQUE exp .)
+    PUNTOCOMA       reduce using rule 55 (expresion -> exp MENORQUE exp .)
+    SUMA            shift and go to state 105
+    RESTA           shift and go to state 106
 
 
 state 130
 
-    (56) expresion -> exp IGUALIGUAL exp .
-    (58) exp -> exp . SUMA termino
-    (59) exp -> exp . RESTA termino
+    (56) expresion -> exp DIFERENTE exp .
+    (59) exp -> exp . SUMA termino
+    (60) exp -> exp . RESTA termino
 
-    COMA            reduce using rule 56 (expresion -> exp IGUALIGUAL exp .)
-    PARENTDER       reduce using rule 56 (expresion -> exp IGUALIGUAL exp .)
-    PUNTOCOMA       reduce using rule 56 (expresion -> exp IGUALIGUAL exp .)
-    SUMA            shift and go to state 104
-    RESTA           shift and go to state 105
+    COMA            reduce using rule 56 (expresion -> exp DIFERENTE exp .)
+    PARENTDER       reduce using rule 56 (expresion -> exp DIFERENTE exp .)
+    PUNTOCOMA       reduce using rule 56 (expresion -> exp DIFERENTE exp .)
+    SUMA            shift and go to state 105
+    RESTA           shift and go to state 106
 
 
 state 131
 
-    (58) exp -> exp SUMA termino .
-    (61) termino -> termino . MULTIPLICACION factor
-    (62) termino -> termino . DIVISION factor
+    (57) expresion -> exp IGUALIGUAL exp .
+    (59) exp -> exp . SUMA termino
+    (60) exp -> exp . RESTA termino
 
-    MAYORQUE        reduce using rule 58 (exp -> exp SUMA termino .)
-    MENORQUE        reduce using rule 58 (exp -> exp SUMA termino .)
-    DIFERENTE       reduce using rule 58 (exp -> exp SUMA termino .)
-    IGUALIGUAL      reduce using rule 58 (exp -> exp SUMA termino .)
-    SUMA            reduce using rule 58 (exp -> exp SUMA termino .)
-    RESTA           reduce using rule 58 (exp -> exp SUMA termino .)
-    COMA            reduce using rule 58 (exp -> exp SUMA termino .)
-    PARENTDER       reduce using rule 58 (exp -> exp SUMA termino .)
-    PUNTOCOMA       reduce using rule 58 (exp -> exp SUMA termino .)
-    MULTIPLICACION  shift and go to state 106
-    DIVISION        shift and go to state 107
+    COMA            reduce using rule 57 (expresion -> exp IGUALIGUAL exp .)
+    PARENTDER       reduce using rule 57 (expresion -> exp IGUALIGUAL exp .)
+    PUNTOCOMA       reduce using rule 57 (expresion -> exp IGUALIGUAL exp .)
+    SUMA            shift and go to state 105
+    RESTA           shift and go to state 106
 
 
 state 132
 
-    (59) exp -> exp RESTA termino .
-    (61) termino -> termino . MULTIPLICACION factor
-    (62) termino -> termino . DIVISION factor
+    (59) exp -> exp SUMA termino .
+    (62) termino -> termino . MULTIPLICACION factor
+    (63) termino -> termino . DIVISION factor
 
-    MAYORQUE        reduce using rule 59 (exp -> exp RESTA termino .)
-    MENORQUE        reduce using rule 59 (exp -> exp RESTA termino .)
-    DIFERENTE       reduce using rule 59 (exp -> exp RESTA termino .)
-    IGUALIGUAL      reduce using rule 59 (exp -> exp RESTA termino .)
-    SUMA            reduce using rule 59 (exp -> exp RESTA termino .)
-    RESTA           reduce using rule 59 (exp -> exp RESTA termino .)
-    COMA            reduce using rule 59 (exp -> exp RESTA termino .)
-    PARENTDER       reduce using rule 59 (exp -> exp RESTA termino .)
-    PUNTOCOMA       reduce using rule 59 (exp -> exp RESTA termino .)
-    MULTIPLICACION  shift and go to state 106
-    DIVISION        shift and go to state 107
+    MAYORQUE        reduce using rule 59 (exp -> exp SUMA termino .)
+    MENORQUE        reduce using rule 59 (exp -> exp SUMA termino .)
+    DIFERENTE       reduce using rule 59 (exp -> exp SUMA termino .)
+    IGUALIGUAL      reduce using rule 59 (exp -> exp SUMA termino .)
+    SUMA            reduce using rule 59 (exp -> exp SUMA termino .)
+    RESTA           reduce using rule 59 (exp -> exp SUMA termino .)
+    COMA            reduce using rule 59 (exp -> exp SUMA termino .)
+    PARENTDER       reduce using rule 59 (exp -> exp SUMA termino .)
+    PUNTOCOMA       reduce using rule 59 (exp -> exp SUMA termino .)
+    MULTIPLICACION  shift and go to state 107
+    DIVISION        shift and go to state 108
 
 
 state 133
 
-    (61) termino -> termino MULTIPLICACION factor .
+    (60) exp -> exp RESTA termino .
+    (62) termino -> termino . MULTIPLICACION factor
+    (63) termino -> termino . DIVISION factor
 
-    MULTIPLICACION  reduce using rule 61 (termino -> termino MULTIPLICACION factor .)
-    DIVISION        reduce using rule 61 (termino -> termino MULTIPLICACION factor .)
-    MAYORQUE        reduce using rule 61 (termino -> termino MULTIPLICACION factor .)
-    MENORQUE        reduce using rule 61 (termino -> termino MULTIPLICACION factor .)
-    DIFERENTE       reduce using rule 61 (termino -> termino MULTIPLICACION factor .)
-    IGUALIGUAL      reduce using rule 61 (termino -> termino MULTIPLICACION factor .)
-    SUMA            reduce using rule 61 (termino -> termino MULTIPLICACION factor .)
-    RESTA           reduce using rule 61 (termino -> termino MULTIPLICACION factor .)
-    COMA            reduce using rule 61 (termino -> termino MULTIPLICACION factor .)
-    PARENTDER       reduce using rule 61 (termino -> termino MULTIPLICACION factor .)
-    PUNTOCOMA       reduce using rule 61 (termino -> termino MULTIPLICACION factor .)
+    MAYORQUE        reduce using rule 60 (exp -> exp RESTA termino .)
+    MENORQUE        reduce using rule 60 (exp -> exp RESTA termino .)
+    DIFERENTE       reduce using rule 60 (exp -> exp RESTA termino .)
+    IGUALIGUAL      reduce using rule 60 (exp -> exp RESTA termino .)
+    SUMA            reduce using rule 60 (exp -> exp RESTA termino .)
+    RESTA           reduce using rule 60 (exp -> exp RESTA termino .)
+    COMA            reduce using rule 60 (exp -> exp RESTA termino .)
+    PARENTDER       reduce using rule 60 (exp -> exp RESTA termino .)
+    PUNTOCOMA       reduce using rule 60 (exp -> exp RESTA termino .)
+    MULTIPLICACION  shift and go to state 107
+    DIVISION        shift and go to state 108
 
 
 state 134
 
-    (62) termino -> termino DIVISION factor .
+    (62) termino -> termino MULTIPLICACION factor .
 
-    MULTIPLICACION  reduce using rule 62 (termino -> termino DIVISION factor .)
-    DIVISION        reduce using rule 62 (termino -> termino DIVISION factor .)
-    MAYORQUE        reduce using rule 62 (termino -> termino DIVISION factor .)
-    MENORQUE        reduce using rule 62 (termino -> termino DIVISION factor .)
-    DIFERENTE       reduce using rule 62 (termino -> termino DIVISION factor .)
-    IGUALIGUAL      reduce using rule 62 (termino -> termino DIVISION factor .)
-    SUMA            reduce using rule 62 (termino -> termino DIVISION factor .)
-    RESTA           reduce using rule 62 (termino -> termino DIVISION factor .)
-    COMA            reduce using rule 62 (termino -> termino DIVISION factor .)
-    PARENTDER       reduce using rule 62 (termino -> termino DIVISION factor .)
-    PUNTOCOMA       reduce using rule 62 (termino -> termino DIVISION factor .)
+    MULTIPLICACION  reduce using rule 62 (termino -> termino MULTIPLICACION factor .)
+    DIVISION        reduce using rule 62 (termino -> termino MULTIPLICACION factor .)
+    MAYORQUE        reduce using rule 62 (termino -> termino MULTIPLICACION factor .)
+    MENORQUE        reduce using rule 62 (termino -> termino MULTIPLICACION factor .)
+    DIFERENTE       reduce using rule 62 (termino -> termino MULTIPLICACION factor .)
+    IGUALIGUAL      reduce using rule 62 (termino -> termino MULTIPLICACION factor .)
+    SUMA            reduce using rule 62 (termino -> termino MULTIPLICACION factor .)
+    RESTA           reduce using rule 62 (termino -> termino MULTIPLICACION factor .)
+    COMA            reduce using rule 62 (termino -> termino MULTIPLICACION factor .)
+    PARENTDER       reduce using rule 62 (termino -> termino MULTIPLICACION factor .)
+    PUNTOCOMA       reduce using rule 62 (termino -> termino MULTIPLICACION factor .)
 
 
 state 135
 
-    (64) factor -> PARENTIZQ expresion PARENTDER .
+    (63) termino -> termino DIVISION factor .
 
-    MULTIPLICACION  reduce using rule 64 (factor -> PARENTIZQ expresion PARENTDER .)
-    DIVISION        reduce using rule 64 (factor -> PARENTIZQ expresion PARENTDER .)
-    MAYORQUE        reduce using rule 64 (factor -> PARENTIZQ expresion PARENTDER .)
-    MENORQUE        reduce using rule 64 (factor -> PARENTIZQ expresion PARENTDER .)
-    DIFERENTE       reduce using rule 64 (factor -> PARENTIZQ expresion PARENTDER .)
-    IGUALIGUAL      reduce using rule 64 (factor -> PARENTIZQ expresion PARENTDER .)
-    SUMA            reduce using rule 64 (factor -> PARENTIZQ expresion PARENTDER .)
-    RESTA           reduce using rule 64 (factor -> PARENTIZQ expresion PARENTDER .)
-    COMA            reduce using rule 64 (factor -> PARENTIZQ expresion PARENTDER .)
-    PARENTDER       reduce using rule 64 (factor -> PARENTIZQ expresion PARENTDER .)
-    PUNTOCOMA       reduce using rule 64 (factor -> PARENTIZQ expresion PARENTDER .)
+    MULTIPLICACION  reduce using rule 63 (termino -> termino DIVISION factor .)
+    DIVISION        reduce using rule 63 (termino -> termino DIVISION factor .)
+    MAYORQUE        reduce using rule 63 (termino -> termino DIVISION factor .)
+    MENORQUE        reduce using rule 63 (termino -> termino DIVISION factor .)
+    DIFERENTE       reduce using rule 63 (termino -> termino DIVISION factor .)
+    IGUALIGUAL      reduce using rule 63 (termino -> termino DIVISION factor .)
+    SUMA            reduce using rule 63 (termino -> termino DIVISION factor .)
+    RESTA           reduce using rule 63 (termino -> termino DIVISION factor .)
+    COMA            reduce using rule 63 (termino -> termino DIVISION factor .)
+    PARENTDER       reduce using rule 63 (termino -> termino DIVISION factor .)
+    PUNTOCOMA       reduce using rule 63 (termino -> termino DIVISION factor .)
 
 
 state 136
 
-    (48) imprime -> ESCRIBE PARENTIZQ item_imp items_p . PARENTDER PUNTOCOMA
+    (65) factor -> PARENTIZQ expresion PARENTDER .
 
-    PARENTDER       shift and go to state 143
+    MULTIPLICACION  reduce using rule 65 (factor -> PARENTIZQ expresion PARENTDER .)
+    DIVISION        reduce using rule 65 (factor -> PARENTIZQ expresion PARENTDER .)
+    MAYORQUE        reduce using rule 65 (factor -> PARENTIZQ expresion PARENTDER .)
+    MENORQUE        reduce using rule 65 (factor -> PARENTIZQ expresion PARENTDER .)
+    DIFERENTE       reduce using rule 65 (factor -> PARENTIZQ expresion PARENTDER .)
+    IGUALIGUAL      reduce using rule 65 (factor -> PARENTIZQ expresion PARENTDER .)
+    SUMA            reduce using rule 65 (factor -> PARENTIZQ expresion PARENTDER .)
+    RESTA           reduce using rule 65 (factor -> PARENTIZQ expresion PARENTDER .)
+    COMA            reduce using rule 65 (factor -> PARENTIZQ expresion PARENTDER .)
+    PARENTDER       reduce using rule 65 (factor -> PARENTIZQ expresion PARENTDER .)
+    PUNTOCOMA       reduce using rule 65 (factor -> PARENTIZQ expresion PARENTDER .)
 
 
 state 137
 
-    (51) items_p -> COMA . item_imp items_p
-    (49) item_imp -> . expresion
-    (50) item_imp -> . LETRERO
-    (53) expresion -> . exp MAYORQUE exp
-    (54) expresion -> . exp MENORQUE exp
-    (55) expresion -> . exp DIFERENTE exp
-    (56) expresion -> . exp IGUALIGUAL exp
-    (57) expresion -> . exp
-    (58) exp -> . exp SUMA termino
-    (59) exp -> . exp RESTA termino
-    (60) exp -> . termino
-    (61) termino -> . termino MULTIPLICACION factor
-    (62) termino -> . termino DIVISION factor
-    (63) termino -> . factor
-    (64) factor -> . PARENTIZQ expresion PARENTDER
-    (65) factor -> . signo_opc operando
-    (66) signo_opc -> . SUMA
-    (67) signo_opc -> . RESTA
-    (68) signo_opc -> . empty
-    (73) empty -> .
+    (49) imprime -> ESCRIBE PARENTIZQ item_imp items_p . PARENTDER PUNTOCOMA
 
-    LETRERO         shift and go to state 116
-    PARENTIZQ       shift and go to state 81
-    SUMA            shift and go to state 77
-    RESTA           shift and go to state 79
-    ID              reduce using rule 73 (empty -> .)
-    CTE_ENT         reduce using rule 73 (empty -> .)
-    CTE_FLOT        reduce using rule 73 (empty -> .)
+    PARENTDER       shift and go to state 144
 
-    item_imp                       shift and go to state 144
-    expresion                      shift and go to state 115
-    exp                            shift and go to state 76
-    termino                        shift and go to state 78
-    factor                         shift and go to state 80
-    signo_opc                      shift and go to state 82
-    empty                          shift and go to state 90
 
 state 138
 
-    (52) items_p -> empty .
+    (52) items_p -> COMA . item_imp items_p
+    (50) item_imp -> . expresion
+    (51) item_imp -> . LETRERO
+    (54) expresion -> . exp MAYORQUE exp
+    (55) expresion -> . exp MENORQUE exp
+    (56) expresion -> . exp DIFERENTE exp
+    (57) expresion -> . exp IGUALIGUAL exp
+    (58) expresion -> . exp
+    (59) exp -> . exp SUMA termino
+    (60) exp -> . exp RESTA termino
+    (61) exp -> . termino
+    (62) termino -> . termino MULTIPLICACION factor
+    (63) termino -> . termino DIVISION factor
+    (64) termino -> . factor
+    (65) factor -> . PARENTIZQ expresion PARENTDER
+    (66) factor -> . signo_opc operando
+    (67) signo_opc -> . SUMA
+    (68) signo_opc -> . RESTA
+    (69) signo_opc -> . empty
+    (74) empty -> .
 
-    PARENTDER       reduce using rule 52 (items_p -> empty .)
+    LETRERO         shift and go to state 117
+    PARENTIZQ       shift and go to state 82
+    SUMA            shift and go to state 78
+    RESTA           shift and go to state 80
+    ID              reduce using rule 74 (empty -> .)
+    CTE_ENT         reduce using rule 74 (empty -> .)
+    CTE_FLOT        reduce using rule 74 (empty -> .)
 
+    item_imp                       shift and go to state 145
+    expresion                      shift and go to state 116
+    exp                            shift and go to state 77
+    termino                        shift and go to state 79
+    factor                         shift and go to state 81
+    signo_opc                      shift and go to state 83
+    empty                          shift and go to state 91
 
 state 139
 
-    (33) condicion_inicio -> SI PARENTIZQ expresion PARENTDER .
+    (53) items_p -> empty .
 
-    LLAVEIZQ        reduce using rule 33 (condicion_inicio -> SI PARENTIZQ expresion PARENTDER .)
+    PARENTDER       reduce using rule 53 (items_p -> empty .)
 
 
 state 140
 
-    (39) ciclo_cond -> ciclo_inicio PARENTIZQ expresion PARENTDER .
+    (34) condicion_inicio -> SI PARENTIZQ expresion PARENTDER .
 
-    HAZ             reduce using rule 39 (ciclo_cond -> ciclo_inicio PARENTIZQ expresion PARENTDER .)
+    LLAVEIZQ        reduce using rule 34 (condicion_inicio -> SI PARENTIZQ expresion PARENTDER .)
 
 
 state 141
 
-    (22) params_p -> COMA tipo ID params_p .
+    (40) ciclo_cond -> ciclo_inicio PARENTIZQ expresion PARENTDER .
 
-    PARENTDER       reduce using rule 22 (params_p -> COMA tipo ID params_p .)
+    HAZ             reduce using rule 40 (ciclo_cond -> ciclo_inicio PARENTIZQ expresion PARENTDER .)
 
 
 state 142
 
-    (46) args_p -> COMA expresion args_p .
+    (23) params_p -> COMA tipo ID params_p .
 
-    PARENTDER       reduce using rule 46 (args_p -> COMA expresion args_p .)
+    PARENTDER       reduce using rule 23 (params_p -> COMA tipo ID params_p .)
 
 
 state 143
 
-    (48) imprime -> ESCRIBE PARENTIZQ item_imp items_p PARENTDER . PUNTOCOMA
+    (47) args_p -> COMA arg args_p .
 
-    PUNTOCOMA       shift and go to state 145
+    PARENTDER       reduce using rule 47 (args_p -> COMA arg args_p .)
 
 
 state 144
 
-    (51) items_p -> COMA item_imp . items_p
-    (51) items_p -> . COMA item_imp items_p
-    (52) items_p -> . empty
-    (73) empty -> .
+    (49) imprime -> ESCRIBE PARENTIZQ item_imp items_p PARENTDER . PUNTOCOMA
 
-    COMA            shift and go to state 137
-    PARENTDER       reduce using rule 73 (empty -> .)
+    PUNTOCOMA       shift and go to state 146
 
-    items_p                        shift and go to state 146
-    empty                          shift and go to state 138
 
 state 145
 
-    (48) imprime -> ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA .
+    (52) items_p -> COMA item_imp . items_p
+    (52) items_p -> . COMA item_imp items_p
+    (53) items_p -> . empty
+    (74) empty -> .
 
-    ID              reduce using rule 48 (imprime -> ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA .)
-    ESCRIBE         reduce using rule 48 (imprime -> ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA .)
-    SI              reduce using rule 48 (imprime -> ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA .)
-    MIENTRAS        reduce using rule 48 (imprime -> ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA .)
-    LLAVEDER        reduce using rule 48 (imprime -> ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA .)
+    COMA            shift and go to state 138
+    PARENTDER       reduce using rule 74 (empty -> .)
 
+    items_p                        shift and go to state 147
+    empty                          shift and go to state 139
 
 state 146
 
-    (51) items_p -> COMA item_imp items_p .
+    (49) imprime -> ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA .
 
-    PARENTDER       reduce using rule 51 (items_p -> COMA item_imp items_p .)
+    ID              reduce using rule 49 (imprime -> ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA .)
+    ESCRIBE         reduce using rule 49 (imprime -> ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA .)
+    SI              reduce using rule 49 (imprime -> ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA .)
+    MIENTRAS        reduce using rule 49 (imprime -> ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA .)
+    LLAVEDER        reduce using rule 49 (imprime -> ESCRIBE PARENTIZQ item_imp items_p PARENTDER PUNTOCOMA .)
+
+
+state 147
+
+    (52) items_p -> COMA item_imp items_p .
+
+    PARENTDER       reduce using rule 52 (items_p -> COMA item_imp items_p .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
 WARNING: shift/reduce conflict for ID in state 15 resolved as shift
-WARNING: shift/reduce conflict for ID in state 28 resolved as shift
+WARNING: shift/reduce conflict for ID in state 29 resolved as shift
